@@ -1,0 +1,44 @@
+{
+    "list":[
+        { 
+            "PathDesc" : [ {"Path":"Assets/assetbundle/prefab/building","Mode":"2","Filter":"*"},{"Path":"Assets/assetbundle/prefab/collection","Mode":"2","Filter":"*"} ],
+            "Name" : "ab_building",
+        },
+        { 
+            "PathDesc" : [ {"Path":"Assets/assetbundle/prefab/map","Mode":"2"}, ],
+            "Name" : "ab_map",
+        },
+        { 
+            "PathDesc" : [ {"Path":"Assets/assetbundle/prefab/road","Mode":"2"}, ],
+            "Name" : "ab_road",
+        },
+        { 
+            "PathDesc" : [ {"Path":"Assets/assetbundle/prefab/role","Mode":"2"}, ],
+            "Name" : "ab_role",
+        },
+        { 
+            "PathDesc" : [ {"Path":"Assets/assetbundle/prefab/ship","Mode":"2"}, ],
+            "Name" : "ab_ship",
+        },
+        { 
+            "PathDesc" : [ {"Path":"Assets/assetbundle/prefab/ui","Mode":"2"}, {"Path":"Assets/assetbundle/sprite","Mode":"2"}],
+            "Name" : "ab_ui",
+        },
+        { 
+            "PathDesc" : [ {"Path":"Assets/assetbundle/texture/ui/sea_map","Mode":"2"}, ],
+            "Name" : "ab_icon_sea_map",
+        },
+        { 
+            "PathDesc" : [ {"Path":"Assets/assetbundle/texture/ui/shipYard","Mode":"2"}, ],
+            "Name" : "ab_icon_shipYard",
+        },
+        { 
+            "PathDesc" : [ {"Path":"Assets/assetbundle/texture/ui/commodityIcon","Mode":"2"}, ],
+            "Name" : "ab_icon_commodityIcon",
+        },
+        { 
+            "PathDesc" : [ {"Path":"Assets/assetbundle/texture/ui/linkPath","Mode":"2"}, ],
+            "Name" : "ab_icon_linkPath",
+        },
+    ]
+}
