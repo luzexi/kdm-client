@@ -8,12 +8,13 @@ using UnityEngine.EventSystems;
 // ui daily mission
 public class UIDailyMission : ScreenBaseHandler
 {
-	public UI_Event mBtnStart;
+	public UI_Event mBtnPersonal;
+    public UI_Event mBtnSidebar;
 
     public override void Init()
     {
         base.Init();
-        mBtnStart.onClick = BtnStartOnClick;
+        mBtnPersonal.onClick = BtnPersonalOnClick;
     }
 
     public override void CloseScreen()
@@ -26,7 +27,7 @@ public class UIDailyMission : ScreenBaseHandler
         base.OpenScreen();
     }
 
-    void BtnStartOnClick(PointerEventData eventData , UI_Event ev)
+    void BtnPersonalOnClick(PointerEventData eventData , UI_Event ev)
     {
         //
     }

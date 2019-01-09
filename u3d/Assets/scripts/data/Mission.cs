@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public enum MissionType
 {
@@ -32,5 +33,27 @@ public class Mission
 			}
 			return mTexture;
 		}
+	}
+
+	public Dictionary<string,object> ToDic()
+	{
+		Dictionary<string,object> dic = new Dictionary<string,object>();
+		dic.Add("id",mId);
+		dic.Add("type",(int)mType);
+		dic.Add("time",mDateTime);
+		dic.Add("tex_name",mTextureName);
+		dic.Add("desc",mDesc);
+		dic.Add("count",mCount);
+		return dic;
+	}
+
+	public void ToModel(Dictionary<string, object> _dic)
+	{
+		mId = Convert.ToInt32(_dic["id"]);
+		mType = (MissionType)Convert.ToInt32(_dic["type"]);
+		mDateTime = Convert.ToInt32(_dic["time"]);
+		mTextureName = _dic["tex_name"].ToString();
+		mDesc = _dic["desc"].ToString();
+		mCount = Convert.ToInt32(_dic["count"]);
 	}
 }
