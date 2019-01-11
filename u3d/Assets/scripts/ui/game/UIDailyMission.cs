@@ -45,6 +45,10 @@ public class UIDailyMission : ScreenBaseHandler
         List<Mission> lst_now = new List<Mission>();
         List<Mission> lst_finished = new List<Mission>();
 
+        int y_pos = 100;
+
+        mOldItemParent.transform.localPosition = new Vector3(0,y_pos,0);
+
         if(lst_old.Count <= 0)
         {
             mOldTitle.SetActive(false);
@@ -58,33 +62,75 @@ public class UIDailyMission : ScreenBaseHandler
             GameObject obj = GameObject.Instantiate(Resources.Load("UIDailyMissionItem")) as GameObject;
             obj.transform.parent = mOldItemParent.transform;
             obj.transform.localPosition = new Vector3(0,300*i,0);
+            obj.transform.localScale = Vector3.one;
 
             UIDailyMissionItem mission_item = obj.GetComponent<UIDailyMissionItem>();
             mission_item.SetMission(lst_old[i]);
+            mission_item.mBtnFinish.SetData("d",mission_item);
+            mission_item.mBtnFinish.onClick = BtnMissionFinishOnClick;
+            mission_item.mBtnCancel.onClick = BtnMissionCancelOnClick;
         }
 
-        for(int i = 0 ; i<lst_now.Count ; i++)
+        if(lst_now.Count > 0 )
         {
-            GameObject obj = GameObject.Instantiate(Resources.Load("UIDailyMissionItem")) as GameObject;
-            obj.transform.parent = mOldItemParent.transform;
-            obj.transform.localPosition = new Vector3(0,300*i,0);
+            mNowItemParent.SetActive(true);
+            y_pos += lst_old.Count * 300;
+            mNowItemParent.transform.localPosition = new Vector3(0,y_pos,0);
+            for(int i = 0 ; i<lst_now.Count ; i++)
+            {
+                GameObject obj = GameObject.Instantiate(Resources.Load("UIDailyMissionItem")) as GameObject;
+                obj.transform.parent = mNowItemParent.transform;
+                obj.transform.localPosition = new Vector3(0,300*i,0);
+                obj.transform.localScale = Vector3.one;
 
-            UIDailyMissionItem mission_item = obj.GetComponent<UIDailyMissionItem>();
-            mission_item.SetMission(lst_now[i]);
+                UIDailyMissionItem mission_item = obj.GetComponent<UIDailyMissionItem>();
+                mission_item.SetMission(lst_now[i]);
+                mission_item.mBtnFinish.onClick = BtnMissionFinishOnClick;
+                mission_item.mBtnCancel.onClick = BtnMissionCancelOnClick;
+            }
         }
-        for(int i = 0 ; i<lst_finished.Count ; i++)
+        else
         {
-            GameObject obj = GameObject.Instantiate(Resources.Load("UIDailyMissionItem")) as GameObject;
-            obj.transform.parent = mOldItemParent.transform;
-            obj.transform.localPosition = new Vector3(0,300*i,0);
-            UIDailyMissionItem mission_item = obj.GetComponent<UIDailyMissionItem>();
-            mission_item.SetMission(lst_finished[i]);
+            mNowItemParent.SetActive(false);
+        }
+
+        if(lst_finished.Count > 0)
+        {
+            mFinishedItemParent.SetActive(true);
+            y_pos += lst_now.Count * 300;
+            mFinishedItemParent.transform.localPosition = new Vector3(0,y_pos,0);
+            for(int i = 0 ; i<lst_finished.Count ; i++)
+            {
+                GameObject obj = GameObject.Instantiate(Resources.Load("UIDailyMissionItem")) as GameObject;
+                obj.transform.parent = mFinishedItemParent.transform;
+                obj.transform.localPosition = new Vector3(0,300*i,0);
+                obj.transform.localScale = Vector3.one;
+
+                UIDailyMissionItem mission_item = obj.GetComponent<UIDailyMissionItem>();
+                mission_item.SetMission(lst_finished[i]);
+                mission_item.mBtnCancel.gameObject.SetActive(false);
+                mission_item.mBtnFinish.gameObject.SetActive(false);
+            }
+        }
+        else
+        {
+            mFinishedItemParent.SetActive(false);
         }
     }
 
 
     ///////////////// button
     void BtnPersonalOnClick(PointerEventData eventData , UI_Event ev)
+    {
+        //
+    }
+
+    void BtnMissionFinishOnClick(PointerEventData eventData , UI_Event ev)
+    {
+        //
+    }
+
+    void BtnMissionCancelOnClick(PointerEventData eventData , UI_Event ev)
     {
         //
     }
