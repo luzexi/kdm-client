@@ -6,6 +6,20 @@ using System;
 public class TimeConvert
 {
     public const long TICKS_TO_SECOND = 10000000L;
+    public const long DAY_SECOND = 60*60*24;
+
+    public static int NowDay()
+    {
+        DateTime dt = DateTime.Now;
+
+        long timel = DateTimeToUNIXTime(dt);
+        int day = timel/DAY_SECOND;
+    }
+
+    public static DateTime GetNow()
+    {
+        return DateTime.Now;
+    }
 
 	//convert from unix time to string date time
     public static string UNIXTimeToDateTimeString(long time)
@@ -24,7 +38,7 @@ public class TimeConvert
     //convert form unix time to c# time
     public static DateTime UNIXTimeToDateTime(long time)
     {
-        long timeL = time * 10000000 + (new DateTime(1970, 1, 1, 8, 0, 0).Ticks);
+        long timeL = time * TICKS_TO_SECOND + (new DateTime(1970, 1, 1, 8, 0, 0).Ticks);
 
         DateTime date = new DateTime(timeL);
         return date;
@@ -33,7 +47,7 @@ public class TimeConvert
     //c# date time convert to unix time
     public static long DateTimeToUNIXTime( DateTime dt )
     {
-    	long timeL = (dt.Ticks - (new DateTime(1970, 1, 1, 8, 0, 0).Ticks)) / 10000000L;
+    	long timeL = (dt.Ticks - (new DateTime(1970, 1, 1, 8, 0, 0).Ticks)) / TICKS_TO_SECOND;
 		return timeL;
     }
 

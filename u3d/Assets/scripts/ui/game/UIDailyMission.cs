@@ -27,6 +27,7 @@ public class UIDailyMission : ScreenBaseHandler
     {
         base.Init();
         mBtnPersonal.onClick = BtnPersonalOnClick;
+        mBtnSidebar.onClick = BtnSidebarOnClick;
     }
 
     public override void CloseScreen()
@@ -66,8 +67,11 @@ public class UIDailyMission : ScreenBaseHandler
 
             UIDailyMissionItem mission_item = obj.GetComponent<UIDailyMissionItem>();
             mission_item.SetMission(lst_old[i]);
-            mission_item.mBtnFinish.SetData("d",mission_item);
+            mission_item.mBtnFinish.SetData("d",lst_old[i]);
+            mission_item.mBtnFinish.SetData("t",1);
             mission_item.mBtnFinish.onClick = BtnMissionFinishOnClick;
+            mission_item.mBtnCancel.SetData("d",lst_old[i]);
+            mission_item.mBtnCancel.SetData("t",1);
             mission_item.mBtnCancel.onClick = BtnMissionCancelOnClick;
         }
 
@@ -85,8 +89,10 @@ public class UIDailyMission : ScreenBaseHandler
 
                 UIDailyMissionItem mission_item = obj.GetComponent<UIDailyMissionItem>();
                 mission_item.SetMission(lst_now[i]);
+                mission_item.mBtnFinish.SetData("d",lst_now[i]);
+                mission_item.mBtnFinish.SetData("t",2);
                 mission_item.mBtnFinish.onClick = BtnMissionFinishOnClick;
-                mission_item.mBtnCancel.onClick = BtnMissionCancelOnClick;
+                mission_item.mBtnCancel.gameObject.SetActive(false);
             }
         }
         else
@@ -108,7 +114,9 @@ public class UIDailyMission : ScreenBaseHandler
 
                 UIDailyMissionItem mission_item = obj.GetComponent<UIDailyMissionItem>();
                 mission_item.SetMission(lst_finished[i]);
-                mission_item.mBtnCancel.gameObject.SetActive(false);
+                mission_item.mBtnCancel.SetData("d",lst_finished[i]);
+                mission_item.mBtnCancel.SetData("t",3);
+                mission_item.mBtnCancel.onClick = BtnMissionCancelOnClick;
                 mission_item.mBtnFinish.gameObject.SetActive(false);
             }
         }
@@ -122,16 +130,37 @@ public class UIDailyMission : ScreenBaseHandler
     ///////////////// button
     void BtnPersonalOnClick(PointerEventData eventData , UI_Event ev)
     {
+        // todo goto peronsal ui
+        CloseScreen();
+        UIPersonal ui_personal = MenuManager.instance.CreateMenu<UIPersonal>();
+        ui_personal.OpenScreen();
+    }
+
+    void BtnSidebarOnClick(PointerEventData eventData , UI_Event ev)
+    {
         //
     }
 
     void BtnMissionFinishOnClick(PointerEventData eventData , UI_Event ev)
     {
-        //
+        Mission mis = ev.GetData<Mission>("d");
+        mis.mDateTime = DateTime.Now;
+        mis.mFinished = 1;
     }
 
     void BtnMissionCancelOnClick(PointerEventData eventData , UI_Event ev)
     {
-        //
+        int type = ev.GetData<Mission>("t");
+
+        if(type == 1)
+        {
+            Mission mis = ev.GetData<Mission>("d");
+            mis.mDateTime = TimeConvert.GetNow();
+        }
+        else if(type == 3)
+        {
+            Mission mis = ev.GetData<Mission>("d");
+            mis.mFinished = 0;
+        }
     }
 }

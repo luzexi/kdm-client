@@ -8,12 +8,20 @@ using UnityEngine.EventSystems;
 // ui mission editor
 public class UIMissionEditor : ScreenBaseHandler
 {
-	public UI_Event mBtnStart;
+	public UI_Event mBtnPersonal;
+    public UI_Event mBtnBack;
+    public UI_Event mBtnOk;
+    public UI_Event mBtnCamera;
+    public UI_Event mBtnNewTemplate;
 
     public override void Init()
     {
         base.Init();
-        mBtnStart.onClick = BtnStartOnClick;
+        mBtnPersonal.onClick = BtnPersonalOnClick;
+        mBtnBack.onClick = BtnBackOnClick;
+        mBtnOk.onClick = BtnOkOnClick;
+        mBtnCamera.onClick = BtnCameraOnClick;
+        mBtnNewTemplate.onClick = BtnNewTemplateOnClick;
     }
 
     public override void CloseScreen()
@@ -26,8 +34,30 @@ public class UIMissionEditor : ScreenBaseHandler
         base.OpenScreen();
     }
 
-    void BtnStartOnClick(PointerEventData eventData , UI_Event ev)
+    //////////////////////////////// button event
+    void BtnPersonalOnClick(PointerEventData eventData , UI_Event ev)
     {
         //
     }
+
+    void BtnBackOnClick(PointerEventData eventData , UI_Event ev)
+    {
+        //
+    }
+
+    void BtnOkOnClick(PointerEventData eventData , UI_Event ev)
+    {
+        //
+    }
+
+    void BtnCameraOnClick(PointerEventData eventData , UI_Event ev)
+    {
+        //
+    }
+
+    void BtnNewTemplateOnClick(PointerEventData eventData , UI_Event ev)
+    {
+        //
+    }
+    /////////////////////////////////////
 }

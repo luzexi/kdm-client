@@ -16,11 +16,12 @@ public class Mission
 {
 	public int mId;
 	public MissionType mType;
-	public int mDateTime;
+	public DateTime mDateTime;
 	public string mTextureName;
 	private Texture mTexture;
 	public string mDesc;
 	public int mCount;
+	public int mFinished;
 
 	public Texture texture
 	{
@@ -40,10 +41,11 @@ public class Mission
 		Dictionary<string,object> dic = new Dictionary<string,object>();
 		dic.Add("id",mId);
 		dic.Add("type",(int)mType);
-		dic.Add("time",mDateTime);
+		dic.Add("time",mDateTime.Ticks);
 		dic.Add("tex_name",mTextureName);
 		dic.Add("desc",mDesc);
 		dic.Add("count",mCount);
+		dic.Add("finished",mFinished);
 		return dic;
 	}
 
@@ -51,9 +53,10 @@ public class Mission
 	{
 		mId = Convert.ToInt32(_dic["id"]);
 		mType = (MissionType)Convert.ToInt32(_dic["type"]);
-		mDateTime = Convert.ToInt32(_dic["time"]);
+		mDateTime = new DateTime(Convert.ToInt64(_dic["time"]));
 		mTextureName = _dic["tex_name"].ToString();
 		mDesc = _dic["desc"].ToString();
 		mCount = Convert.ToInt32(_dic["count"]);
+		mFinished = Convert.ToInt32(_dic["finished"]);
 	}
 }
