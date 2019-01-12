@@ -1,4 +1,4 @@
-rm ../../kdm-client/*
+rm -rf ../../kdm-client/*
 cp -r ./* ../../kdm-client/
 cd ../../kdm-client/
 git add .
