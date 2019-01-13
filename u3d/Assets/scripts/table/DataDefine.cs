@@ -6,5 +6,10 @@ public class DataDefine {
 	public const int CommonProperty_CommonProperty_property_value = 1;
 	public const int CommonProperty_CommonProperty_F3 = 2;
 	public const int CommonProperty_CommonProperty_F4 = 3;
+	public const int Mission_MissionSelect_id = 0;
+	public const int Mission_MissionSelect_name = 1;
+	public const int Mission_MissionSelect_pic = 2;
+	public const int Mission_MissionSelect_desc = 3;
+	public const int Mission_MissionSelect_mission_type = 4;
 
 }

@@ -8,7 +8,7 @@ public enum MissionType
 	None,
 	Daily = 1,
 	Week,
-	Month
+	Month,
 }
 
 

@@ -130,7 +130,6 @@ public class UIDailyMission : ScreenBaseHandler
     ///////////////// button
     void BtnPersonalOnClick(PointerEventData eventData , UI_Event ev)
     {
-        // todo goto peronsal ui
         CloseScreen();
         UIPersonal ui_personal = MenuManager.instance.CreateMenu<UIPersonal>();
         ui_personal.OpenScreen();

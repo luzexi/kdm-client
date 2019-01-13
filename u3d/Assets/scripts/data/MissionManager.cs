@@ -11,6 +11,11 @@ public class MissionManager : CSingleton<MissionManager>
 	List<Mission> mListMission = new List<Mission>();
 	Dictionary<int,Mission> mDicMission = new Dictionary<int, Mission>();
 
+	public MissionManager()
+	{
+		//
+	}
+
 	public void AddMission(Mission _mis)
 	{
 		mListMission.Add(_mis);
@@ -77,6 +82,7 @@ public class MissionManager : CSingleton<MissionManager>
 	{
 		List<object> lst = ToDic();
 		string json_str = Json.Serialize(lst);
+		
 	}
 
 	public void Load()
