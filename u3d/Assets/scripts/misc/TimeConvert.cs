@@ -13,7 +13,8 @@ public class TimeConvert
         DateTime dt = DateTime.Now;
 
         long timel = DateTimeToUNIXTime(dt);
-        int day = timel/DAY_SECOND;
+        int day = (int)(timel/DAY_SECOND);
+        return day;
     }
 
     public static DateTime GetNow()

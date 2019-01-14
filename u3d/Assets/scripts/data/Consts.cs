@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Consts
 {
-    public const string VERSION_STR = "99.99.99";
+    public static string VERSION_STR = "99.99.99";
     public static int VERSION
     {
         get
@@ -17,5 +17,5 @@ public class Consts
         }
     }
 
-    public const string DATA_SAVE_PATH = Util.GetPersistentDataPath();
+    //public const string DATA_SAVE_PATH = Util.GetPersistentDataPath();
 }

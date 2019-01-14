@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using MiniJSON;
+using System;
+using System.IO;
 
 
 // mission manager
@@ -82,12 +84,14 @@ public class MissionManager : CSingleton<MissionManager>
 	{
 		List<object> lst = ToDic();
 		string json_str = Json.Serialize(lst);
-		
+		string path = Misc.GetPersistentDataPath() + "/savedata.json";
+		File.WriteAllText(path, json_str);
 	}
 
 	public void Load()
 	{
-		string json_str = "";
+		string path = Misc.GetPersistentDataPath() + "/savedata.json";
+		string json_str = File.ReadAllText(path);
 		List<object> lst = Json.Deserialize(json_str) as List<object>;
 		if(lst != null)
 		{

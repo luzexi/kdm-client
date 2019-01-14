@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System;
 
 
 // ui daily mission
@@ -149,7 +150,7 @@ public class UIDailyMission : ScreenBaseHandler
 
     void BtnMissionCancelOnClick(PointerEventData eventData , UI_Event ev)
     {
-        int type = ev.GetData<Mission>("t");
+        int type = ev.GetData<int>("t");
 
         if(type == 1)
         {

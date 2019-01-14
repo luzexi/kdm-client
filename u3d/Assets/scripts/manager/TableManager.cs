@@ -6,7 +6,7 @@ using UnityEngine;
 public class TableManager : CSingleton<TableManager>
 {
     //private TableCommonProperty mTableCommonProperty = null;
-    private TableBuilding mTableBuilding = null;
+    private TableMissionSelect mTableMissionSelect = null;
 
     public void InitCommonProperty()
     {
@@ -19,26 +19,26 @@ public class TableManager : CSingleton<TableManager>
         // }
     }
 
-    public TableBuilding.Data GetBuildingById (int _id)
+    public TableMissionSelect.Data GetMissionSelectById(int _id)
     {
-        if (mTableBuilding == null)
+        if (mTableMissionSelect == null)
         {
-            mTableBuilding = new TableBuilding ();
-            mTableBuilding.ReadTable ();
-            mTableBuilding.ParseData ();
+            mTableMissionSelect = new TableMissionSelect();
+            mTableMissionSelect.ReadTable();
+            mTableMissionSelect.ParseData();
         }
-        return mTableBuilding.GetDataById (_id);
+        return mTableMissionSelect.GetDataById(_id);
     }
 
-    public List<TableBuilding.Data> GetBuildingAll ()
+    public List<TableMissionSelect.Data> GetMissionSelectAll ()
     {
-        if (mTableBuilding == null)
+        if (mTableMissionSelect == null)
         {
-            mTableBuilding = new TableBuilding ();
-            mTableBuilding.ReadTable ();
-            mTableBuilding.ParseData ();
+            mTableMissionSelect = new TableMissionSelect();
+            mTableMissionSelect.ReadTable();
+            mTableMissionSelect.ParseData();
 
         }
-        return mTableBuilding.GetAll ();
+        return mTableMissionSelect.GetAll();
     }
 }
