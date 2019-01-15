@@ -72,7 +72,7 @@ public class Main : MonoBehaviour
 		MenuManager.instance.SetTransform(GlobalObject.instance.UIRoot.transform);
 
 		//init language
-		TextManager.instance.LoadLanguage(TextManager.LANGUAGE.JP);
+		TextManager.instance.LoadLanguage(TextManager.LANGUAGE.EN);
 
 		//get language string
 		string text = TextManager.instance.GetText(TText.SUCCESS);
@@ -132,6 +132,8 @@ public class Main : MonoBehaviour
 			loading_handle.CloseScreen();
 		}
 		Debug.LogError("start game");
+
+		MissionManager.instance.Load();
 
 		SceneManager.LoadScene("game");
 

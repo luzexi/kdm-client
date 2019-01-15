@@ -8,12 +8,19 @@ using UnityEngine.EventSystems;
 // ui personal
 public class UIPersonal : ScreenBaseHandler
 {
-	public UI_Event mBtnStart;
+	public UI_Event mBtnBack;
+    public UI_Event mBtnStatistics;
+
+    public Text mName;
+    public Text mLevel;
+    public Text mSign;
+    public Text mAchievement;
 
     public override void Init()
     {
         base.Init();
-        mBtnStart.onClick = BtnStartOnClick;
+        mBtnBack.onClick = BtnBackOnClick;
+        mBtnStatistics.onClick = BtnStatisticsOnClick;
     }
 
     public override void CloseScreen()
@@ -26,7 +33,12 @@ public class UIPersonal : ScreenBaseHandler
         base.OpenScreen();
     }
 
-    void BtnStartOnClick(PointerEventData eventData , UI_Event ev)
+    void BtnBackOnClick(PointerEventData eventData , UI_Event ev)
+    {
+        //
+    }
+
+    void BtnStatisticsOnClick(PointerEventData eventData , UI_Event ev)
     {
         //
     }

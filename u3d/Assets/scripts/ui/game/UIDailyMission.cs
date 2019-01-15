@@ -12,9 +12,9 @@ public class UIDailyMission : ScreenBaseHandler
 	public UI_Event mBtnPersonal;
     public UI_Event mBtnSidebar;
 
-    public GameObject mOldTitle;
-    public GameObject mNowTitle;
-    public GameObject mFinishedTitle;
+    // public GameObject mOldTitle;
+    // public GameObject mNowTitle;
+    // public GameObject mFinishedTitle;
 
     public GameObject mOldItemParent;
     public GameObject mNowItemParent;
@@ -53,12 +53,13 @@ public class UIDailyMission : ScreenBaseHandler
 
         if(lst_old.Count <= 0)
         {
-            mOldTitle.SetActive(false);
+            mOldItemParent.SetActive(false);
         }
         else
         {
-            mOldTitle.SetActive(true);
+            mOldItemParent.SetActive(true);
         }
+        
         for(int i = 0 ; i<lst_old.Count ; i++)
         {
             GameObject obj = GameObject.Instantiate(Resources.Load("UIDailyMissionItem")) as GameObject;

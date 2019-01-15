@@ -91,11 +91,14 @@ public class MissionManager : CSingleton<MissionManager>
 	public void Load()
 	{
 		string path = Misc.GetPersistentDataPath() + "/savedata.json";
-		string json_str = File.ReadAllText(path);
-		List<object> lst = Json.Deserialize(json_str) as List<object>;
-		if(lst != null)
+		if(File.Exists(path))
 		{
-			ToModel(lst);
+			string json_str = File.ReadAllText(path);
+			List<object> lst = Json.Deserialize(json_str) as List<object>;
+			if(lst != null)
+			{
+				ToModel(lst);
+			}
 		}
 	}
 }
