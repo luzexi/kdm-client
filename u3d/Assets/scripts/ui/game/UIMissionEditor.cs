@@ -42,6 +42,13 @@ public class UIMissionEditor : ScreenBaseHandler
         base.OpenScreen();
     }
 
+    public void SetEditMission(Mission _mis)
+    {
+        mMission = _mis;
+        mImagePic.texture = _mis.texture;
+        mTextDesc.text = _mis.mDesc;
+    }
+
     public void SetSelectMission(List<Mission> lst_mis)
     {
         for(int i = 0 ; i<lst_mis.Count ; i++)
@@ -61,7 +68,8 @@ public class UIMissionEditor : ScreenBaseHandler
     //////////////////////////////// button event
     void BtnSelectOnClick(PointerEventData eventData , UI_Event ev)
     {
-        //
+        Mission mis = ev.GetData<Mission>("d");
+        SetEditMission(mis);
     }
 
     void BtnPersonalOnClick(PointerEventData eventData , UI_Event ev)
