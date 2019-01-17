@@ -100,5 +100,29 @@ public class MissionManager : CSingleton<MissionManager>
 				ToModel(lst);
 			}
 		}
+		else
+		{
+			Mission mis = new Mission();
+			mis.mId = MaxID++;
+			mis.mType = MissionType.Daily;
+			mis.mDateTime = TimeConvert.GetNow();
+			mis.mDesc = "test1";
+			AddMission(mis);
+
+			mis = new Mission();
+			mis.mId = MaxID++;
+			mis.mType = MissionType.Daily;
+			mis.mDateTime = TimeConvert.GetNow();
+			mis.mDesc = "test2";
+			AddMission(mis);
+
+			mis = new Mission();
+			mis.mId = MaxID++;
+			mis.mType = MissionType.Daily;
+			mis.mDateTime = TimeConvert.GetNow();
+			mis.mDesc = "test3";
+			AddMission(mis);
+		}
+
 	}
 }

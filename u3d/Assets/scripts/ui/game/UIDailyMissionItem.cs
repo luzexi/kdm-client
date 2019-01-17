@@ -9,6 +9,7 @@ using UnityEngine.EventSystems;
 public class UIDailyMissionItem : MonoBehaviour
 {
 	public Mission mMission;
+	public UI_Event mBtnBg;
 	public UI_Event mBtnCancel;
 	public UI_Event mBtnFinish;
 	public UI_Event mBtnDelete;
