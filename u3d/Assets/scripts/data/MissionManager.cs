@@ -106,6 +106,7 @@ public class MissionManager : CSingleton<MissionManager>
 			mis.mId = MaxID++;
 			mis.mType = MissionType.Daily;
 			mis.mDateTime = TimeConvert.GetNow();
+			mis.mFinished = TimeConvert.NowDay();
 			mis.mDesc = "test1";
 			AddMission(mis);
 
@@ -113,14 +114,36 @@ public class MissionManager : CSingleton<MissionManager>
 			mis.mId = MaxID++;
 			mis.mType = MissionType.Daily;
 			mis.mDateTime = TimeConvert.GetNow();
+			mis.mFinished = TimeConvert.NowDay();
 			mis.mDesc = "test2";
 			AddMission(mis);
 
 			mis = new Mission();
 			mis.mId = MaxID++;
 			mis.mType = MissionType.Daily;
-			mis.mDateTime = TimeConvert.GetNow();
+			mis.mDateTime = new DateTime(2000, 1, 1, 8, 0, 0);
 			mis.mDesc = "test3";
+			AddMission(mis);
+
+			mis = new Mission();
+			mis.mId = MaxID++;
+			mis.mType = MissionType.Daily;
+			mis.mDateTime = new DateTime(2001, 1, 1, 8, 0, 0);
+			mis.mDesc = "test4";
+			AddMission(mis);
+
+			mis = new Mission();
+			mis.mId = MaxID++;
+			mis.mType = MissionType.Daily;
+			mis.mDateTime = TimeConvert.GetNow();
+			mis.mDesc = "test5";
+			AddMission(mis);
+
+			mis = new Mission();
+			mis.mId = MaxID++;
+			mis.mType = MissionType.Daily;
+			mis.mDateTime = TimeConvert.GetNow();
+			mis.mDesc = "test6";
 			AddMission(mis);
 		}
 

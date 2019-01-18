@@ -47,7 +47,25 @@ public class UIDailyMission : ScreenBaseHandler
         List<Mission> lst_now = new List<Mission>();
         List<Mission> lst_finished = new List<Mission>();
 
-        int y_pos = 100;
+        for(int i = 0; i<_lstmission.Count ; i++)
+        {
+            Mission mis = _lstmission[i];
+            int day_time = TimeConvert.NowDay();
+            if(mis.IsFinished())
+            {
+                lst_finished.Add(mis);
+            }
+            else if(mis.IsOld())
+            {
+                lst_old.Add(mis);
+            }
+            else
+            {
+                lst_now.Add(mis);
+            }
+        }
+
+        int y_pos = -100;
 
         mOldItemParent.transform.localPosition = new Vector3(0,y_pos,0);
         if(lst_old.Count > 0)
@@ -55,9 +73,9 @@ public class UIDailyMission : ScreenBaseHandler
             mOldItemParent.SetActive(true);
             for(int i = 0 ; i<lst_old.Count ; i++)
             {
-                GameObject obj = GameObject.Instantiate(Resources.Load("UIDailyMissionItem")) as GameObject;
+                GameObject obj = GameObject.Instantiate(Resources.Load("ui/UIDailyMissionItem")) as GameObject;
                 obj.transform.parent = mOldItemParent.transform;
-                obj.transform.localPosition = new Vector3(0,300*i,0);
+                obj.transform.localPosition = new Vector3(0,-300*i,0);
                 obj.transform.localScale = Vector3.one;
 
                 UIDailyMissionItem mission_item = obj.GetComponent<UIDailyMissionItem>();
@@ -88,13 +106,13 @@ public class UIDailyMission : ScreenBaseHandler
         if(lst_now.Count > 0 )
         {
             mNowItemParent.SetActive(true);
-            y_pos += lst_old.Count * 300;
+            y_pos -= lst_old.Count * 300;
             mNowItemParent.transform.localPosition = new Vector3(0,y_pos,0);
             for(int i = 0 ; i<lst_now.Count ; i++)
             {
-                GameObject obj = GameObject.Instantiate(Resources.Load("UIDailyMissionItem")) as GameObject;
+                GameObject obj = GameObject.Instantiate(Resources.Load("ui/UIDailyMissionItem")) as GameObject;
                 obj.transform.parent = mNowItemParent.transform;
-                obj.transform.localPosition = new Vector3(0,300*i,0);
+                obj.transform.localPosition = new Vector3(0,-300*i,0);
                 obj.transform.localScale = Vector3.one;
 
                 UIDailyMissionItem mission_item = obj.GetComponent<UIDailyMissionItem>();
@@ -123,13 +141,13 @@ public class UIDailyMission : ScreenBaseHandler
         if(lst_finished.Count > 0)
         {
             mFinishedItemParent.SetActive(true);
-            y_pos += lst_now.Count * 300;
+            y_pos -= lst_now.Count * 300;
             mFinishedItemParent.transform.localPosition = new Vector3(0,y_pos,0);
             for(int i = 0 ; i<lst_finished.Count ; i++)
             {
-                GameObject obj = GameObject.Instantiate(Resources.Load("UIDailyMissionItem")) as GameObject;
+                GameObject obj = GameObject.Instantiate(Resources.Load("ui/UIDailyMissionItem")) as GameObject;
                 obj.transform.parent = mFinishedItemParent.transform;
-                obj.transform.localPosition = new Vector3(0,300*i,0);
+                obj.transform.localPosition = new Vector3(0,-300*i,0);
                 obj.transform.localScale = Vector3.one;
 
                 UIDailyMissionItem mission_item = obj.GetComponent<UIDailyMissionItem>();

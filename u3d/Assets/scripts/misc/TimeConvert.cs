@@ -11,7 +11,11 @@ public class TimeConvert
     public static int NowDay()
     {
         DateTime dt = DateTime.Now;
+        return GetDays(dt);
+    }
 
+    public static int GetDays(DateTime dt)
+    {
         long timel = DateTimeToUNIXTime(dt);
         int day = (int)(timel/DAY_SECOND);
         return day;

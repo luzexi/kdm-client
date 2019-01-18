@@ -36,6 +36,22 @@ public class Mission
 		}
 	}
 
+	public bool IsOld()
+	{
+		if(mDateTime == null) return false;
+		int day1 = TimeConvert.GetDays(mDateTime);
+		int day2 = TimeConvert.NowDay();
+		if(day2 != day1) return true;
+		return false;
+	}
+
+	public bool IsFinished()
+	{
+		int day1 = TimeConvert.NowDay();
+		if(day1 != mFinished) return false;
+		return true;
+	}
+
 	public Dictionary<string,object> ToDic()
 	{
 		Dictionary<string,object> dic = new Dictionary<string,object>();
