@@ -18,6 +18,9 @@ public class UIDailyMission : ScreenBaseHandler
     public GameObject mFinishedItemParent;
 
     public ScrollRect mScrollRect;
+    private const int HEIGHT_ITEM = 300;
+    private const int HEIGHT_INTERVAL = 100;
+    private const int HEIGHT_TEXT = 200;
 
     public List<UIDailyMissionItem> mListOldMission = new List<UIDailyMissionItem>();
     public List<UIDailyMissionItem> mListNowMission = new List<UIDailyMissionItem>();
@@ -47,6 +50,11 @@ public class UIDailyMission : ScreenBaseHandler
         List<Mission> lst_now = new List<Mission>();
         List<Mission> lst_finished = new List<Mission>();
 
+        int sum_hight = HEIGHT_ITEM * _lstmission.Count;
+        bool have_old = false;
+        bool have_finished = false;
+        bool have_now = false;
+
         for(int i = 0; i<_lstmission.Count ; i++)
         {
             Mission mis = _lstmission[i];
@@ -54,20 +62,43 @@ public class UIDailyMission : ScreenBaseHandler
             if(mis.IsFinished())
             {
                 lst_finished.Add(mis);
+                if(!have_finished)
+                {
+                    have_finished = true;
+                    sum_hight += HEIGHT_TEXT;
+                }
             }
             else if(mis.IsOld())
             {
                 lst_old.Add(mis);
+                if(!have_old)
+                {
+                    have_old = true;
+                    sum_hight += HEIGHT_TEXT;
+                }
             }
             else
             {
                 lst_now.Add(mis);
+                if(!have_now)
+                {
+                    have_now = true;
+                    sum_hight += HEIGHT_TEXT;
+                }
             }
         }
 
-        int y_pos = -100;
+        mScrollRect.content.sizeDelta = new Vector2(800,sum_hight);
+        mScrollRect.CalculateLayoutInputVertical();
+        //mScrollRect.Rebuild(CanvasUpdate.Layout);
 
-        mOldItemParent.transform.localPosition = new Vector3(0,y_pos,0);
+        Debug.Log("sum_hight " + sum_hight);
+        sum_hight = sum_hight / 2;
+        int y_pos = HEIGHT_INTERVAL;
+        Debug.Log("sum_hight " + sum_hight);
+
+        mOldItemParent.transform.localPosition = new Vector3(0,sum_hight - y_pos,0);
+        Debug.Log("mOldItemParent " + mOldItemParent.transform.localPosition);
         if(lst_old.Count > 0)
         {
             mOldItemParent.SetActive(true);
@@ -75,7 +106,7 @@ public class UIDailyMission : ScreenBaseHandler
             {
                 GameObject obj = GameObject.Instantiate(Resources.Load("ui/UIDailyMissionItem")) as GameObject;
                 obj.transform.parent = mOldItemParent.transform;
-                obj.transform.localPosition = new Vector3(0,-300*i,0);
+                obj.transform.localPosition = new Vector3(0,-HEIGHT_TEXT - HEIGHT_ITEM*i,0);
                 obj.transform.localScale = Vector3.one;
 
                 UIDailyMissionItem mission_item = obj.GetComponent<UIDailyMissionItem>();
@@ -106,13 +137,15 @@ public class UIDailyMission : ScreenBaseHandler
         if(lst_now.Count > 0 )
         {
             mNowItemParent.SetActive(true);
-            y_pos -= lst_old.Count * 300;
-            mNowItemParent.transform.localPosition = new Vector3(0,y_pos,0);
+            y_pos += HEIGHT_INTERVAL;
+            y_pos += lst_old.Count * HEIGHT_ITEM;
+            mNowItemParent.transform.localPosition = new Vector3(0,sum_hight - y_pos,0);
+            //y_pos += HEIGHT_TEXT;
             for(int i = 0 ; i<lst_now.Count ; i++)
             {
                 GameObject obj = GameObject.Instantiate(Resources.Load("ui/UIDailyMissionItem")) as GameObject;
                 obj.transform.parent = mNowItemParent.transform;
-                obj.transform.localPosition = new Vector3(0,-300*i,0);
+                obj.transform.localPosition = new Vector3(0,-HEIGHT_TEXT - HEIGHT_ITEM*i,0);
                 obj.transform.localScale = Vector3.one;
 
                 UIDailyMissionItem mission_item = obj.GetComponent<UIDailyMissionItem>();
@@ -141,13 +174,15 @@ public class UIDailyMission : ScreenBaseHandler
         if(lst_finished.Count > 0)
         {
             mFinishedItemParent.SetActive(true);
-            y_pos -= lst_now.Count * 300;
-            mFinishedItemParent.transform.localPosition = new Vector3(0,y_pos,0);
+            y_pos += HEIGHT_INTERVAL;
+            y_pos += lst_now.Count * HEIGHT_ITEM;
+            mFinishedItemParent.transform.localPosition = new Vector3(0,sum_hight - y_pos,0);
+            //y_pos += HEIGHT_TEXT;
             for(int i = 0 ; i<lst_finished.Count ; i++)
             {
                 GameObject obj = GameObject.Instantiate(Resources.Load("ui/UIDailyMissionItem")) as GameObject;
                 obj.transform.parent = mFinishedItemParent.transform;
-                obj.transform.localPosition = new Vector3(0,-300*i,0);
+                obj.transform.localPosition = new Vector3(0,-HEIGHT_TEXT - HEIGHT_ITEM * i,0);
                 obj.transform.localScale = Vector3.one;
 
                 UIDailyMissionItem mission_item = obj.GetComponent<UIDailyMissionItem>();
