@@ -429,6 +429,8 @@ MonoBehaviour:
   mBtnPersonal: {fileID: 114299220203699414}
   mBtnSidebar: {fileID: 114844288253712494}
   mBtnAddNew: {fileID: 114466509413293382}
+  mView: {fileID: 224168428364843808}
+  mContent: {fileID: 224835434757669764}
   mOldItemParent: {fileID: 1501165437711168}
   mNowItemParent: {fileID: 1230672482303442}
   mFinishedItemParent: {fileID: 1907770862592200}
@@ -942,7 +944,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 10
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!224 &224091753101204102
 RectTransform:

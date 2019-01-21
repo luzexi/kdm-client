@@ -13,6 +13,9 @@ public class UIDailyMission : ScreenBaseHandler
     public UI_Event mBtnSidebar;
     public UI_Event mBtnAddNew;
 
+    public RectTransform mView;
+    public RectTransform mContent;
+
     public GameObject mOldItemParent;
     public GameObject mNowItemParent;
     public GameObject mFinishedItemParent;
@@ -42,6 +45,18 @@ public class UIDailyMission : ScreenBaseHandler
     public override void OpenScreen()
     {
         base.OpenScreen();
+    }
+
+    public void MoveToTop()
+    {
+        if(mView.sizeDelta.y <= mContent.sizeDelta.y)
+        {
+            mContent.transform.localPosition = new Vector3(0, (mView.sizeDelta.y - mContent.sizeDelta.y)/2 ,0);
+        }
+        else
+        {
+            //nothing
+        }
     }
 
     public void ShowMission(List<Mission> _lstmission)
@@ -91,14 +106,12 @@ public class UIDailyMission : ScreenBaseHandler
         mScrollRect.content.sizeDelta = new Vector2(800,sum_hight);
         mScrollRect.CalculateLayoutInputVertical();
         //mScrollRect.Rebuild(CanvasUpdate.Layout);
+        MoveToTop();
 
-        Debug.Log("sum_hight " + sum_hight);
         sum_hight = sum_hight / 2;
         int y_pos = HEIGHT_INTERVAL;
-        Debug.Log("sum_hight " + sum_hight);
 
         mOldItemParent.transform.localPosition = new Vector3(0,sum_hight - y_pos,0);
-        Debug.Log("mOldItemParent " + mOldItemParent.transform.localPosition);
         if(lst_old.Count > 0)
         {
             mOldItemParent.SetActive(true);
@@ -228,7 +241,7 @@ public class UIDailyMission : ScreenBaseHandler
 
     void BtnPersonalOnClick(PointerEventData eventData , UI_Event ev)
     {
-        CloseScreen();
+        //CloseScreen();
         UIPersonal ui_personal = MenuManager.instance.CreateMenu<UIPersonal>();
         ui_personal.OpenScreen();
     }
@@ -240,7 +253,7 @@ public class UIDailyMission : ScreenBaseHandler
 
     void BtnAddNewOnClick(PointerEventData eventData , UI_Event ev)
     {
-        CloseScreen();
+        //CloseScreen();
         UIMissionEditor ui_editor = MenuManager.instance.CreateMenu<UIMissionEditor>();
         ui_editor.OpenScreen();
     }

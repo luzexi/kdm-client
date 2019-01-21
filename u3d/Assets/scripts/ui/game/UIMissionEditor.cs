@@ -79,7 +79,7 @@ public class UIMissionEditor : ScreenBaseHandler
 
     void BtnBackOnClick(PointerEventData eventData , UI_Event ev)
     {
-        //
+        CloseScreen();
     }
 
     void BtnOkOnClick(PointerEventData eventData , UI_Event ev)

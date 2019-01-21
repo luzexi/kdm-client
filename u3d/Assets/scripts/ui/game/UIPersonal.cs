@@ -35,7 +35,7 @@ public class UIPersonal : ScreenBaseHandler
 
     void BtnBackOnClick(PointerEventData eventData , UI_Event ev)
     {
-        //
+        CloseScreen();
     }
 
     void BtnStatisticsOnClick(PointerEventData eventData , UI_Event ev)
