@@ -8,28 +8,27 @@ using UnityEngine.EventSystems;
 // ui mission editor
 public class UIMissionEditor : ScreenBaseHandler
 {
-	public UI_Event mBtnPersonal;
     public UI_Event mBtnBack;
     public UI_Event mBtnOk;
     public UI_Event mBtnCamera;
-    public UI_Event mBtnNewTemplate;
 
     public GameObject mSelectMissionParent;
+    public bool mIsEdit = false;
 
     public RawImage mImagePic;
     public Text mTextDesc;
 
-    public Mission mMission = null;
+    public Mission mMission = new Mission();
     public List<UIDailyMissionItem> mListSelectMission = new List<UIDailyMissionItem>();
+
+    private const int WIDTH_ITEM  = 300;
 
     public override void Init()
     {
         base.Init();
-        mBtnPersonal.onClick = BtnPersonalOnClick;
         mBtnBack.onClick = BtnBackOnClick;
         mBtnOk.onClick = BtnOkOnClick;
         mBtnCamera.onClick = BtnCameraOnClick;
-        mBtnNewTemplate.onClick = BtnNewTemplateOnClick;
     }
 
     public override void CloseScreen()
@@ -40,6 +39,16 @@ public class UIMissionEditor : ScreenBaseHandler
     public override void OpenScreen()
     {
         base.OpenScreen();
+        List<TableMissionSelect.Data> lst_mis_table = TableManager.instance.GetMissionSelectAll();
+        List<Mission> lst_mis = new List<Mission>();
+        for(int i = 0 ; i<lst_mis_table.Count ; i++)
+        {
+            Mission _mis = new Mission();
+            _mis.mTextureName = lst_mis_table[i].mPic;
+            _mis.mDesc = lst_mis_table[i].mDesc;
+            lst_mis.Add(_mis);
+        }
+        SetSelectMission(lst_mis);
     }
 
     public void SetEditMission(Mission _mis)
@@ -49,13 +58,13 @@ public class UIMissionEditor : ScreenBaseHandler
         mTextDesc.text = _mis.mDesc;
     }
 
-    public void SetSelectMission(List<Mission> lst_mis)
+    void SetSelectMission(List<Mission> lst_mis)
     {
         for(int i = 0 ; i<lst_mis.Count ; i++)
         {
             GameObject obj = GameObject.Instantiate(Resources.Load("UIMissionEditorItem")) as GameObject;
             obj.transform.parent = mSelectMissionParent.transform;
-            obj.transform.localPosition = new Vector3(300*i,0,0);
+            obj.transform.localPosition = new Vector3(WIDTH_ITEM * i,0,0);
             obj.transform.localScale = Vector3.one;
 
             UIDailyMissionItem mission_item = obj.GetComponent<UIDailyMissionItem>();
@@ -72,11 +81,6 @@ public class UIMissionEditor : ScreenBaseHandler
         SetEditMission(mis);
     }
 
-    void BtnPersonalOnClick(PointerEventData eventData , UI_Event ev)
-    {
-        //
-    }
-
     void BtnBackOnClick(PointerEventData eventData , UI_Event ev)
     {
         CloseScreen();
@@ -84,17 +88,37 @@ public class UIMissionEditor : ScreenBaseHandler
 
     void BtnOkOnClick(PointerEventData eventData , UI_Event ev)
     {
-        //
+        if(mIsEdit)
+        {
+            CloseScreen();
+
+            UIDailyMission ui_daily_mission = MenuManager.instance.FindMenu<UIDailyMission>();
+            if(ui_daily_mission != null)
+            {
+                ui_daily_mission.FinishEditMission(mMission);
+            }
+        }
+        else
+        {
+            Mission mis = new Mission();
+            mis.mId = MissionManager.instance.MaxID++;
+            mis.mTextureName = mMission.mTextureName;
+            mis.mDesc = mMission.mDesc;
+            mis.mDateTime = TimeConvert.GetNow();
+            MissionManager.instance.AddMission(mis);
+            CloseScreen();
+
+            UIDailyMission ui_daily_mission = MenuManager.instance.FindMenu<UIDailyMission>();
+            if(ui_daily_mission != null)
+            {
+                ui_daily_mission.FinishAddMission(mis);
+            }
+        }
     }
 
     void BtnCameraOnClick(PointerEventData eventData , UI_Event ev)
     {
-        //
-    }
-
-    void BtnNewTemplateOnClick(PointerEventData eventData , UI_Event ev)
-    {
-        //
+        // select photo or take a picture
     }
     /////////////////////////////////////
 }

@@ -59,6 +59,16 @@ public class UIDailyMission : ScreenBaseHandler
         }
     }
 
+    public void FinishAddMission(Mission _mis)
+    {
+        //
+    }
+
+    public void FinishEditMission(Mission _mis)
+    {
+        //
+    }
+
     public void ShowMission(List<Mission> _lstmission)
     {
         List<Mission> lst_old = new List<Mission>();
@@ -256,6 +266,9 @@ public class UIDailyMission : ScreenBaseHandler
         //CloseScreen();
         UIMissionEditor ui_editor = MenuManager.instance.CreateMenu<UIMissionEditor>();
         ui_editor.OpenScreen();
+        Mission mis = new Mission();
+        mis.mDesc = "test";
+        ui_editor.SetEditMission(mis);
     }
 
     void BtnMissionFinishOnClick(PointerEventData eventData , UI_Event ev)
