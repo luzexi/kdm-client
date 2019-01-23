@@ -12,16 +12,20 @@ public class UIMissionEditor : ScreenBaseHandler
     public UI_Event mBtnOk;
     public UI_Event mBtnCamera;
 
-    public GameObject mSelectMissionParent;
+    //public GameObject mSelectMissionParent;
     public bool mIsEdit = false;
 
     public RawImage mImagePic;
     public Text mTextDesc;
 
+    public RectTransform mView;
+    public RectTransform mContent;
+    public ScrollRect mScrollRect;
+    private const int WIDTH_ITEM = 300;
+    private const int WIDTH_INTERVAL = 100;
+
     public Mission mMission = new Mission();
     public List<UIDailyMissionItem> mListSelectMission = new List<UIDailyMissionItem>();
-
-    private const int WIDTH_ITEM  = 300;
 
     public override void Init()
     {
@@ -49,6 +53,11 @@ public class UIMissionEditor : ScreenBaseHandler
             lst_mis.Add(_mis);
         }
         SetSelectMission(lst_mis);
+
+        UI_Event view_event = UI_Event.Get(mView);
+        view_event.onBeginDrag = ScrollOnBeginDrag;
+        view_event.onDrag = ScrollOnDrag;
+        view_event.onEndDrag = ScrollOnEndDrag;
     }
 
     public void SetEditMission(Mission _mis)
@@ -58,19 +67,37 @@ public class UIMissionEditor : ScreenBaseHandler
         mTextDesc.text = _mis.mDesc;
     }
 
+    public void MoveToTop()
+    {
+        if(mView.sizeDelta.x <= mContent.sizeDelta.x)
+        {
+            mContent.transform.localPosition = new Vector3((mView.sizeDelta.x - mContent.sizeDelta.x)/2,0 ,0);
+        }
+        else
+        {
+            //nothing
+        }
+    }
+
     void SetSelectMission(List<Mission> lst_mis)
     {
+        mContent.sizeDelta = new Vector2(lst_mis.Count * WIDTH_ITEM, WIDTH_ITEM);
+        MoveToTop();
+
         for(int i = 0 ; i<lst_mis.Count ; i++)
         {
             GameObject obj = GameObject.Instantiate(Resources.Load("UIMissionEditorItem")) as GameObject;
-            obj.transform.parent = mSelectMissionParent.transform;
-            obj.transform.localPosition = new Vector3(WIDTH_ITEM * i,0,0);
+            obj.transform.parent = mContent.transform;
+            obj.transform.localPosition = new Vector3(WIDTH_ITEM * i, 0, 0);
             obj.transform.localScale = Vector3.one;
 
             UIDailyMissionItem mission_item = obj.GetComponent<UIDailyMissionItem>();
             mission_item.SetMission(lst_mis[i]);
-            mission_item.mBtnFinish.SetData("d",lst_mis[i]);
+            mission_item.mBtnFinish.SetData("d", lst_mis[i]);
             mission_item.mBtnFinish.onClick = BtnSelectOnClick;
+            mission_item.mBtnFinish.onBeginDrag = ScrollOnBeginDrag;
+            mission_item.mBtnFinish.onDrag = ScrollOnDrag;
+            mission_item.mBtnFinish.onEndDrag = ScrollOnEndDrag;
         }
     }
 
@@ -78,7 +105,16 @@ public class UIMissionEditor : ScreenBaseHandler
     void BtnSelectOnClick(PointerEventData eventData , UI_Event ev)
     {
         Mission mis = ev.GetData<Mission>("d");
-        SetEditMission(mis);
+        Mission select_mission = new Mission();
+        select_mission.mId = MissionManager.instance.MaxID++;
+        // select_mission.mType = mis.mType;
+        // select_mission.mDateTime = mis.mDateTime;
+        select_mission.mTextureName = mis.mTextureName;
+        select_mission.mDesc = mis.mDesc;
+        // select_mission.mCount = mis.mCount;
+        // select_mission.mFinished = mis.mFinished;
+
+        SetEditMission(select_mission);
     }
 
     void BtnBackOnClick(PointerEventData eventData , UI_Event ev)
@@ -119,6 +155,21 @@ public class UIMissionEditor : ScreenBaseHandler
     void BtnCameraOnClick(PointerEventData eventData , UI_Event ev)
     {
         // select photo or take a picture
+    }
+
+    void ScrollOnBeginDrag(PointerEventData eventData , UI_Event ev)
+    {
+        mScrollRect.OnBeginDrag(eventData);
+    }
+
+    void ScrollOnDrag(PointerEventData eventData , UI_Event ev)
+    {
+        mScrollRect.OnDrag(eventData);
+    }
+
+    void ScrollOnEndDrag(PointerEventData eventData , UI_Event ev)
+    {
+        mScrollRect.OnEndDrag(eventData);
     }
     /////////////////////////////////////
 }
