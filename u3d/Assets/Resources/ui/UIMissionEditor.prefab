@@ -514,6 +514,7 @@ MonoBehaviour:
   mIsEdit: 0
   mImagePic: {fileID: 114761482072031394}
   mTextDesc: {fileID: 114018551321803426}
+  mCanvas: {fileID: 224555324540506288}
   mView: {fileID: 224238783553965658}
   mContent: {fileID: 224626045209329402}
   mScrollRect: {fileID: 114698053396702116}
@@ -1175,10 +1176,10 @@ RectTransform:
   m_Father: {fileID: 224271678026030652}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 800, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224271678026030652
 RectTransform:
@@ -1197,7 +1198,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 228}
-  m_SizeDelta: {x: 800, y: 300}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224287249400971990
 RectTransform:
@@ -1470,7 +1471,7 @@ RectTransform:
   m_GameObject: {fileID: 1677367400150656}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.0001092, y: 1.0001092, z: 1.0001092}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224271678026030652}
   m_Father: {fileID: 224458302530738674}

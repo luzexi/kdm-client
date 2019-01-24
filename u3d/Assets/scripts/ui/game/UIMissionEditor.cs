@@ -18,6 +18,7 @@ public class UIMissionEditor : ScreenBaseHandler
     public RawImage mImagePic;
     public Text mTextDesc;
 
+    public RectTransform mCanvas;
     public RectTransform mView;
     public RectTransform mContent;
     public ScrollRect mScrollRect;
@@ -71,7 +72,7 @@ public class UIMissionEditor : ScreenBaseHandler
     {
         if(mView.sizeDelta.x <= mContent.sizeDelta.x)
         {
-            mContent.transform.localPosition = new Vector3((mView.sizeDelta.x - mContent.sizeDelta.x)/2,0 ,0);
+            mContent.transform.localPosition = new Vector3(-(mView.sizeDelta.x - mContent.sizeDelta.x)/2,0 ,0);
         }
         else
         {
@@ -81,14 +82,16 @@ public class UIMissionEditor : ScreenBaseHandler
 
     void SetSelectMission(List<Mission> lst_mis)
     {
-        mContent.sizeDelta = new Vector2(lst_mis.Count * WIDTH_ITEM, WIDTH_ITEM);
+        mView.sizeDelta = new Vector2(mCanvas.sizeDelta.x, mView.sizeDelta.y);
+        int sum_size = WIDTH_INTERVAL + lst_mis.Count * WIDTH_ITEM;
+        mContent.sizeDelta = new Vector2(sum_size, WIDTH_ITEM);
         MoveToTop();
 
         for(int i = 0 ; i<lst_mis.Count ; i++)
         {
-            GameObject obj = GameObject.Instantiate(Resources.Load("UIMissionEditorItem")) as GameObject;
+            GameObject obj = GameObject.Instantiate(Resources.Load("ui/UIMissionEditorItem")) as GameObject;
             obj.transform.parent = mContent.transform;
-            obj.transform.localPosition = new Vector3(WIDTH_ITEM * i, 0, 0);
+            obj.transform.localPosition = new Vector3(- sum_size/2 + WIDTH_INTERVAL + WIDTH_ITEM * i, 0, 0);
             obj.transform.localScale = Vector3.one;
 
             UIDailyMissionItem mission_item = obj.GetComponent<UIDailyMissionItem>();

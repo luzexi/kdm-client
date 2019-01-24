@@ -21,6 +21,7 @@ public class UIDailyMissionItem : MonoBehaviour
 
 	public void SetMission(Mission _mis)
 	{
+		mMission = _mis;
 		if(mImagePic != null)
 		{
 			mImagePic.texture = _mis.texture;

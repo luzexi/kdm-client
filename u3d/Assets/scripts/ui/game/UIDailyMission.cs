@@ -25,9 +25,9 @@ public class UIDailyMission : ScreenBaseHandler
     private const int HEIGHT_INTERVAL = 100;
     private const int HEIGHT_TEXT = 200;
 
-    public List<UIDailyMissionItem> mListOldMission = new List<UIDailyMissionItem>();
-    public List<UIDailyMissionItem> mListNowMission = new List<UIDailyMissionItem>();
-    public List<UIDailyMissionItem> mListFinishedMission = new List<UIDailyMissionItem>();
+    private List<UIDailyMissionItem> mListOldMission = new List<UIDailyMissionItem>();
+    private List<UIDailyMissionItem> mListNowMission = new List<UIDailyMissionItem>();
+    private List<UIDailyMissionItem> mListFinishedMission = new List<UIDailyMissionItem>();
 
     public override void Init()
     {
@@ -61,16 +61,57 @@ public class UIDailyMission : ScreenBaseHandler
 
     public void FinishAddMission(Mission _mis)
     {
-        //
+        List<Mission> lst_mis = MissionManager.instance.GetDailyMission();
+        ShowMission(lst_mis);
     }
 
     public void FinishEditMission(Mission _mis)
     {
-        //
+        for(int i = 0 ; i<mListOldMission.Count ; i++)
+        {
+            if(mListOldMission[i].mMission.mId == _mis.mId)
+            {
+                mListOldMission[i].SetMission(_mis);
+            }
+        }
+
+        for(int i = 0 ; i<mListNowMission.Count ; i++)
+        {
+            if(mListNowMission[i].mMission.mId == _mis.mId)
+            {
+                mListNowMission[i].SetMission(_mis);
+            }
+        }
+
+        for(int i = 0 ; i<mListFinishedMission.Count ; i++)
+        {
+            if(mListFinishedMission[i].mMission.mId == _mis.mId)
+            {
+                mListFinishedMission[i].SetMission(_mis);
+            }
+        }
     }
 
     public void ShowMission(List<Mission> _lstmission)
     {
+        for(int i = 0 ; i<mListOldMission.Count ; i++)
+        {
+            Destroy(mListOldMission[i].gameObject);
+        }
+        mListOldMission.Clear();
+
+        for(int i = 0 ; i<mListNowMission.Count ; i++)
+        {
+            Destroy(mListNowMission[i].gameObject);
+        }
+        mListNowMission.Clear();
+
+        for(int i = 0 ; i<mListFinishedMission.Count ; i++)
+        {
+            Destroy(mListFinishedMission[i].gameObject);
+        }
+        mListFinishedMission.Clear();
+
         List<Mission> lst_old = new List<Mission>();
         List<Mission> lst_now = new List<Mission>();
         List<Mission> lst_finished = new List<Mission>();
