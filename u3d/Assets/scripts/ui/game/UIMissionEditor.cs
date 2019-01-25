@@ -141,6 +141,7 @@ public class UIMissionEditor : ScreenBaseHandler
         {
             Mission mis = new Mission();
             mis.mId = MissionManager.instance.MaxID++;
+            mis.mType = MissionType.Daily;
             mis.mTextureName = mMission.mTextureName;
             mis.mDesc = mMission.mDesc;
             mis.mDateTime = TimeConvert.GetNow();

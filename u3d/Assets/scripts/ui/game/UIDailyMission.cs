@@ -13,6 +13,7 @@ public class UIDailyMission : ScreenBaseHandler
     public UI_Event mBtnSidebar;
     public UI_Event mBtnAddNew;
 
+    public RectTransform mCanvas;
     public RectTransform mView;
     public RectTransform mContent;
 
@@ -24,6 +25,7 @@ public class UIDailyMission : ScreenBaseHandler
     private const int HEIGHT_ITEM = 300;
     private const int HEIGHT_INTERVAL = 100;
     private const int HEIGHT_TEXT = 200;
+    private const int VIEW_TOP = 170;
 
     private List<UIDailyMissionItem> mListOldMission = new List<UIDailyMissionItem>();
     private List<UIDailyMissionItem> mListNowMission = new List<UIDailyMissionItem>();
@@ -35,6 +37,11 @@ public class UIDailyMission : ScreenBaseHandler
         mBtnPersonal.onClick = BtnPersonalOnClick;
         mBtnSidebar.onClick = BtnSidebarOnClick;
         mBtnAddNew.onClick = BtnAddNewOnClick;
+
+        UI_Event _event = UI_Event.Get(mView);
+        _event.onBeginDrag = BtnItemOnBeginDrag;
+        _event.onDrag = BtnItemOnDrag;
+        _event.onEndDrag = BtnItemOnEndDrag;
     }
 
     public override void CloseScreen()
@@ -94,6 +101,7 @@ public class UIDailyMission : ScreenBaseHandler
 
     public void ShowMission(List<Mission> _lstmission)
     {
+        mView.sizeDelta = new Vector2(mCanvas.sizeDelta.x, mCanvas.sizeDelta.y - VIEW_TOP);
         for(int i = 0 ; i<mListOldMission.Count ; i++)
         {
             Destroy(mListOldMission[i].gameObject);
@@ -154,7 +162,18 @@ public class UIDailyMission : ScreenBaseHandler
             }
         }
 
-        mScrollRect.content.sizeDelta = new Vector2(800,sum_hight);
+        mScrollRect.content.sizeDelta = new Vector2(mCanvas.sizeDelta.x, sum_hight);
+
+        if(mScrollRect.content.sizeDelta.y < mView.sizeDelta.y)
+        {
+            mView.sizeDelta = new Vector2(mView.sizeDelta.x, mScrollRect.content.sizeDelta.y);
+            mView.transform.localPosition = new Vector3(0, (mCanvas.sizeDelta.y - mView.sizeDelta.y)/2 - VIEW_TOP, 0);
+        }
+        else
+        {
+            mView.transform.localPosition = new Vector3(0, (mView.sizeDelta.y - mCanvas.sizeDelta.y)/2 + VIEW_TOP, 0);
+        }
+
         mScrollRect.CalculateLayoutInputVertical();
         //mScrollRect.Rebuild(CanvasUpdate.Layout);
         MoveToTop();
@@ -162,7 +181,7 @@ public class UIDailyMission : ScreenBaseHandler
         sum_hight = sum_hight / 2;
         int y_pos = HEIGHT_INTERVAL;
 
-        mOldItemParent.transform.localPosition = new Vector3(0,sum_hight - y_pos,0);
+        mOldItemParent.transform.localPosition = new Vector3(0, sum_hight - y_pos, 0);
         if(lst_old.Count > 0)
         {
             mOldItemParent.SetActive(true);
