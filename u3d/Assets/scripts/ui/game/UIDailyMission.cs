@@ -171,7 +171,7 @@ public class UIDailyMission : ScreenBaseHandler
         }
         else
         {
-            mView.transform.localPosition = new Vector3(0, (mView.sizeDelta.y - mCanvas.sizeDelta.y)/2 + VIEW_TOP, 0);
+            mView.transform.localPosition = new Vector3(0, (mCanvas.sizeDelta.y - mView.sizeDelta.y)/2 - VIEW_TOP, 0);
         }
 
         mScrollRect.CalculateLayoutInputVertical();
@@ -179,12 +179,13 @@ public class UIDailyMission : ScreenBaseHandler
         MoveToTop();
 
         sum_hight = sum_hight / 2;
-        int y_pos = HEIGHT_INTERVAL;
+        int y_pos = 0;
 
-        mOldItemParent.transform.localPosition = new Vector3(0, sum_hight - y_pos, 0);
         if(lst_old.Count > 0)
         {
             mOldItemParent.SetActive(true);
+            y_pos += HEIGHT_TEXT/2;
+            mOldItemParent.transform.localPosition = new Vector3(0, sum_hight - y_pos, 0);
             for(int i = 0 ; i<lst_old.Count ; i++)
             {
                 GameObject obj = GameObject.Instantiate(Resources.Load("ui/UIDailyMissionItem")) as GameObject;
@@ -202,9 +203,16 @@ public class UIDailyMission : ScreenBaseHandler
                 mission_item.mBtnFinish.SetData("d",lst_old[i]);
                 mission_item.mBtnFinish.SetData("t",1);
                 mission_item.mBtnFinish.onClick = BtnMissionFinishOnClick;
+                mission_item.mBtnFinish.onBeginDrag = BtnItemOnBeginDrag;
+                mission_item.mBtnFinish.onDrag = BtnItemOnDrag;
+                mission_item.mBtnFinish.onEndDrag = BtnItemOnEndDrag;
                 mission_item.mBtnCancel.SetData("d",lst_old[i]);
                 mission_item.mBtnCancel.SetData("t",1);
                 mission_item.mBtnCancel.onClick = BtnMissionCancelOnClick;
+                mission_item.mBtnCancel.onBeginDrag = BtnItemOnBeginDrag;
+                mission_item.mBtnCancel.onDrag = BtnItemOnDrag;
+                mission_item.mBtnCancel.onEndDrag = BtnItemOnEndDrag;
+
                 mission_item.mBtnDelete.SetData("d",lst_old[i]);
                 mission_item.mBtnDelete.onClick = BtnMissionDeleteOnClick;
                 mission_item.mBtnEditor.SetData("d",lst_old[i]);
@@ -241,7 +249,11 @@ public class UIDailyMission : ScreenBaseHandler
                 mission_item.mBtnFinish.SetData("d",lst_now[i]);
                 mission_item.mBtnFinish.SetData("t",2);
                 mission_item.mBtnFinish.onClick = BtnMissionFinishOnClick;
+                mission_item.mBtnFinish.onBeginDrag = BtnItemOnBeginDrag;
+                mission_item.mBtnFinish.onDrag = BtnItemOnDrag;
+                mission_item.mBtnFinish.onEndDrag = BtnItemOnEndDrag;
                 mission_item.mBtnCancel.gameObject.SetActive(false);
+
                 mission_item.mBtnDelete.SetData("d",lst_now[i]);
                 mission_item.mBtnDelete.onClick = BtnMissionDeleteOnClick;
                 mission_item.mBtnEditor.SetData("d",lst_now[i]);
@@ -278,6 +290,10 @@ public class UIDailyMission : ScreenBaseHandler
                 mission_item.mBtnCancel.SetData("d",lst_finished[i]);
                 mission_item.mBtnCancel.SetData("t",3);
                 mission_item.mBtnCancel.onClick = BtnMissionCancelOnClick;
+                mission_item.mBtnCancel.onBeginDrag = BtnItemOnBeginDrag;
+                mission_item.mBtnCancel.onDrag = BtnItemOnDrag;
+                mission_item.mBtnCancel.onEndDrag = BtnItemOnEndDrag;
+
                 mission_item.mBtnFinish.gameObject.SetActive(false);
                 mission_item.mBtnDelete.SetData("d",lst_finished[i]);
                 mission_item.mBtnDelete.onClick = BtnMissionDeleteOnClick;
@@ -334,14 +350,20 @@ public class UIDailyMission : ScreenBaseHandler
     void BtnMissionFinishOnClick(PointerEventData eventData , UI_Event ev)
     {
         Mission mis = ev.GetData<Mission>("d");
-        mis.mDateTime = DateTime.Now;
-        mis.mFinished = 1;
+        //mis.mDateTime = DateTime.Now;
+        mis.mFinished = TimeConvert.NowDay();
+
+        List<Mission> lst_mis = MissionManager.instance.GetDailyMission();
+        ShowMission(lst_mis);
     }
 
     void BtnMissionDeleteOnClick(PointerEventData eventData , UI_Event ev)
     {
         Mission mis = ev.GetData<Mission>("d");
         MissionManager.instance.RemoveMission(mis);
+
+        List<Mission> lst_mis = MissionManager.instance.GetDailyMission();
+        ShowMission(lst_mis);
     }
 
     void BtnMissionEditorOnClick(PointerEventData eventData , UI_Event ev)
@@ -365,5 +387,8 @@ public class UIDailyMission : ScreenBaseHandler
         {
             mis.mFinished = 0;
         }
+
+        List<Mission> lst_mis = MissionManager.instance.GetDailyMission();
+        ShowMission(lst_mis);
     }
 }
