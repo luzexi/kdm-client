@@ -40,4 +40,17 @@ public class UIDailyMissionItem : MonoBehaviour
 			mDeleteEditorNode.SetActive(false);
 		}
 	}
+
+	private Vector3[] path = new Vector3[3];
+	public void ShowEdit()
+	{
+		mDeleteEditorNode.SetActive(true);
+		//transform.DOLocalPath(path, 0.5f, DG.Tweening.PathType.Linear, DG.Tweening.PathMode.Full3D);
+	}
+
+	public void HidenEdit()
+	{
+		mDeleteEditorNode.SetActive(false);
+		//transform.DOLocalPath(path.Reverse(), 0.5f, DG.Tweening.PathType.Linear, DG.Tweening.PathMode.Full3D);
+	}
 }
