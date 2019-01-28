@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using DG.Tweening;
 using System;
 
 
@@ -32,7 +33,6 @@ public class UIDailyMission : ScreenBaseHandler
     private List<UIDailyMissionItem> mListFinishedMission = new List<UIDailyMissionItem>();
 
     private Vector2 mDragDownPosition;
-    private Mission mDragSelectMission;
     private const float EDIT_DRAG_DISTANCE = 20f;
 
     public override void Init()
@@ -126,6 +126,33 @@ public class UIDailyMission : ScreenBaseHandler
             if(mListFinishedMission[i].mMission.mId == _mis.mId)
             {
                 mListFinishedMission[i].ShowEdit();
+            }
+        }
+    }
+
+    void CloseEditButton(Mission _mis)
+    {
+        for(int i = 0 ; i<mListOldMission.Count ; i++)
+        {
+            if(mListOldMission[i].mMission.mId == _mis.mId)
+            {
+                mListOldMission[i].HidenEdit();
+            }
+        }
+
+        for(int i = 0 ; i<mListNowMission.Count ; i++)
+        {
+            if(mListNowMission[i].mMission.mId == _mis.mId)
+            {
+                mListNowMission[i].HidenEdit();
+            }
+        }
+
+        for(int i = 0 ; i<mListFinishedMission.Count ; i++)
+        {
+            if(mListFinishedMission[i].mMission.mId == _mis.mId)
+            {
+                mListFinishedMission[i].HidenEdit();
             }
         }
     }
@@ -228,6 +255,7 @@ public class UIDailyMission : ScreenBaseHandler
                 mission_item.SetMission(lst_old[i]);
 
                 mission_item.mBtnBg.SetData("drag", 1);
+                mission_item.mBtnBg.SetData("d",lst_old[i]);
                 mission_item.mBtnBg.onBeginDrag = BtnItemOnBeginDrag;
                 mission_item.mBtnBg.onDrag = BtnItemOnDrag;
                 mission_item.mBtnBg.onEndDrag = BtnItemOnEndDrag;
@@ -255,6 +283,8 @@ public class UIDailyMission : ScreenBaseHandler
                 mission_item.mBtnEditor.SetData("d",lst_old[i]);
                 mission_item.mBtnEditor.onClick = BtnMissionEditorOnClick;
                 mission_item.mDeleteEditorNode.gameObject.SetActive(false);
+
+                mListOldMission.Add(mission_item);
             }
         }
         else
@@ -280,6 +310,7 @@ public class UIDailyMission : ScreenBaseHandler
                 mission_item.SetMission(lst_now[i]);
 
                 mission_item.mBtnBg.SetData("drag", 1);
+                mission_item.mBtnBg.SetData("d",lst_now[i]);
                 mission_item.mBtnBg.onBeginDrag = BtnItemOnBeginDrag;
                 mission_item.mBtnBg.onDrag = BtnItemOnDrag;
                 mission_item.mBtnBg.onEndDrag = BtnItemOnEndDrag;
@@ -300,6 +331,8 @@ public class UIDailyMission : ScreenBaseHandler
                 mission_item.mBtnEditor.SetData("d",lst_now[i]);
                 mission_item.mBtnEditor.onClick = BtnMissionEditorOnClick;
                 mission_item.mDeleteEditorNode.gameObject.SetActive(false);
+
+                mListNowMission.Add(mission_item);
             }
         }
         else
@@ -325,6 +358,7 @@ public class UIDailyMission : ScreenBaseHandler
                 mission_item.SetMission(lst_finished[i]);
 
                 mission_item.mBtnBg.SetData("drag", 1);
+                mission_item.mBtnBg.SetData("d",lst_finished[i]);
                 mission_item.mBtnBg.onBeginDrag = BtnItemOnBeginDrag;
                 mission_item.mBtnBg.onDrag = BtnItemOnDrag;
                 mission_item.mBtnBg.onEndDrag = BtnItemOnEndDrag;
@@ -344,6 +378,8 @@ public class UIDailyMission : ScreenBaseHandler
                 mission_item.mBtnEditor.SetData("d",lst_finished[i]);
                 mission_item.mBtnEditor.onClick = BtnMissionEditorOnClick;
                 mission_item.mDeleteEditorNode.gameObject.SetActive(false);
+
+                mListFinishedMission.Add(mission_item);
             }
         }
         else
@@ -366,22 +402,29 @@ public class UIDailyMission : ScreenBaseHandler
     void BtnItemOnDrag(PointerEventData eventData , UI_Event ev)
     {
         mScrollRect.OnDrag(eventData);
-
-        int drag = ev.GetData<int>("drag");
-        if(drag <= 0) return;
-        if(mDragSelectMission != null) return;
-
-        Vector2 drag_dis = eventData.position - mDragDownPosition;
-        if(Mathf.Abs(drag_dis.x) > EDIT_DRAG_DISTANCE && Mathf.Abs(drag_dis.x) > Mathf.Abs(drag_dis.y))
-        {
-            mDragSelectMission = ev.GetData<Mission>("d");
-            OpenEditButton(mDragSelectMission);
-        }
     }
 
     void BtnItemOnEndDrag(PointerEventData eventData , UI_Event ev)
     {
         mScrollRect.OnEndDrag(eventData);
+
+        int drag = ev.GetData<int>("drag");
+        if(drag <= 0) return;
+        Mission mis = ev.GetData<Mission>("d");
+
+
+        Vector2 drag_dis = eventData.position - mDragDownPosition;
+        if(Mathf.Abs(drag_dis.x) > EDIT_DRAG_DISTANCE && Mathf.Abs(drag_dis.x) > Mathf.Abs(drag_dis.y))
+        {
+            if(drag_dis.x < 0)
+            {
+                OpenEditButton(mis);
+            }
+            else
+            {
+                CloseEditButton(mis);
+            }
+        }
     }
 
     void BtnPersonalOnClick(PointerEventData eventData , UI_Event ev)

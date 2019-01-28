@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using DG.Tweening;
 
 
 // ui daily mission
@@ -18,6 +19,14 @@ public class UIDailyMissionItem : MonoBehaviour
 	public RawImage mImagePic;
 	public Text mTextDesc;
 	public Text mTextCount;
+
+	private Vector3[] mShowMovePath = null;
+	private Vector3[] mShowBackPath = null;
+
+	void Awake()
+	{
+		//
+	}
 
 	public void SetMission(Mission _mis)
 	{
@@ -41,16 +50,27 @@ public class UIDailyMissionItem : MonoBehaviour
 		}
 	}
 
-	private Vector3[] path = new Vector3[3];
 	public void ShowEdit()
 	{
+		if(mShowMovePath == null)
+		{
+			mShowMovePath = new Vector3[2];
+			mShowMovePath[0] = new Vector3(0, transform.localPosition.y,0);
+			mShowMovePath[1] = new Vector3(-300,transform.localPosition.y,0);
+		}
 		mDeleteEditorNode.SetActive(true);
-		//transform.DOLocalPath(path, 0.5f, DG.Tweening.PathType.Linear, DG.Tweening.PathMode.Full3D);
+		transform.DOLocalPath(mShowMovePath, 0.5f, DG.Tweening.PathType.Linear, DG.Tweening.PathMode.Full3D);
 	}
 
 	public void HidenEdit()
 	{
+		if(mShowBackPath == null)
+		{
+			mShowBackPath = new Vector3[2];
+			mShowBackPath[0] = new Vector3(-300, transform.localPosition.y, 0);
+			mShowBackPath[1] = new Vector3(0, transform.localPosition.y, 0);
+		}
 		mDeleteEditorNode.SetActive(false);
-		//transform.DOLocalPath(path.Reverse(), 0.5f, DG.Tweening.PathType.Linear, DG.Tweening.PathMode.Full3D);
+		transform.DOLocalPath(mShowBackPath, 0.5f, DG.Tweening.PathType.Linear, DG.Tweening.PathMode.Full3D);
 	}
 }
