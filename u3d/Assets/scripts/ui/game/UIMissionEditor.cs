@@ -17,6 +17,7 @@ public class UIMissionEditor : ScreenBaseHandler
 
     public RawImage mImagePic;
     public Text mTextDesc;
+    public InputField mInputField;
 
     public RectTransform mCanvas;
     public RectTransform mView;
@@ -34,6 +35,9 @@ public class UIMissionEditor : ScreenBaseHandler
         mBtnBack.onClick = BtnBackOnClick;
         mBtnOk.onClick = BtnOkOnClick;
         mBtnCamera.onClick = BtnCameraOnClick;
+
+        //UI_Event _ev = UI_Event.Get(mTextDesc);
+        //_ev.onClick = BtnSelectDescOnClick;
     }
 
     public override void CloseScreen()
@@ -66,6 +70,8 @@ public class UIMissionEditor : ScreenBaseHandler
         mMission = _mis;
         mImagePic.texture = _mis.texture;
         mTextDesc.text = _mis.mDesc;
+        mTextDesc.gameObject.SetActive(false);
+        mInputField.text = _mis.mDesc;
     }
 
     public void MoveToTop()
@@ -105,17 +111,26 @@ public class UIMissionEditor : ScreenBaseHandler
     }
 
     //////////////////////////////// button event
+    void BtnSelectDescOnClick(PointerEventData eventData , UI_Event ev)
+    {
+        //CloseScreen();
+        TouchScreenKeyboard tsk = TouchScreenKeyboard.Open("");
+    }
+
     void BtnSelectOnClick(PointerEventData eventData , UI_Event ev)
     {
         Mission mis = ev.GetData<Mission>("d");
         Mission select_mission = new Mission();
-        select_mission.mId = MissionManager.instance.MaxID++;
-        // select_mission.mType = mis.mType;
-        // select_mission.mDateTime = mis.mDateTime;
+        if(mIsEdit)
+        {
+            select_mission.mId = mMission.mId;
+        }
+        else
+        {
+            select_mission.mId = MissionManager.instance.MaxID++;
+        }
         select_mission.mTextureName = mis.mTextureName;
         select_mission.mDesc = mis.mDesc;
-        // select_mission.mCount = mis.mCount;
-        // select_mission.mFinished = mis.mFinished;
 
         SetEditMission(select_mission);
     }

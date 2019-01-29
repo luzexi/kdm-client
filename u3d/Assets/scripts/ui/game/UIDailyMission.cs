@@ -83,6 +83,7 @@ public class UIDailyMission : ScreenBaseHandler
             if(mListOldMission[i].mMission.mId == _mis.mId)
             {
                 mListOldMission[i].SetMission(_mis);
+                mListOldMission[i].HidenEdit();
             }
         }
 
@@ -91,6 +92,7 @@ public class UIDailyMission : ScreenBaseHandler
             if(mListNowMission[i].mMission.mId == _mis.mId)
             {
                 mListNowMission[i].SetMission(_mis);
+                mListNowMission[i].HidenEdit();
             }
         }
 
@@ -99,6 +101,7 @@ public class UIDailyMission : ScreenBaseHandler
             if(mListFinishedMission[i].mMission.mId == _mis.mId)
             {
                 mListFinishedMission[i].SetMission(_mis);
+                mListFinishedMission[i].HidenEdit();
             }
         }
     }
@@ -443,6 +446,7 @@ public class UIDailyMission : ScreenBaseHandler
     {
         //CloseScreen();
         UIMissionEditor ui_editor = MenuManager.instance.CreateMenu<UIMissionEditor>();
+        ui_editor.mIsEdit = false;
         ui_editor.OpenScreen();
         Mission mis = new Mission();
         mis.mDesc = "test";
@@ -473,6 +477,7 @@ public class UIDailyMission : ScreenBaseHandler
         Mission mis = ev.GetData<Mission>("d");
         UIMissionEditor ui_editor = MenuManager.instance.CreateMenu<UIMissionEditor>();
         ui_editor.OpenScreen();
+        ui_editor.mIsEdit = true;
         ui_editor.SetEditMission(mis);
     }
 
