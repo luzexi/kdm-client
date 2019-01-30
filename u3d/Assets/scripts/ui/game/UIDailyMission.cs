@@ -458,6 +458,7 @@ public class UIDailyMission : ScreenBaseHandler
         Mission mis = ev.GetData<Mission>("d");
         //mis.mDateTime = DateTime.Now;
         mis.mFinished = TimeConvert.NowDay();
+        mis.mCount++;
 
         List<Mission> lst_mis = MissionManager.instance.GetDailyMission();
         ShowMission(lst_mis);
@@ -493,6 +494,7 @@ public class UIDailyMission : ScreenBaseHandler
         else if(type == 3)
         {
             mis.mFinished = 0;
+            mis.mCount--;
         }
 
         List<Mission> lst_mis = MissionManager.instance.GetDailyMission();

@@ -108,6 +108,7 @@ public class MissionManager : CSingleton<MissionManager>
 			mis.mDateTime = TimeConvert.GetNow();
 			mis.mFinished = TimeConvert.NowDay();
 			mis.mDesc = "test1";
+			mis.mCount = 99;
 			AddMission(mis);
 
 			mis = new Mission();
@@ -116,6 +117,7 @@ public class MissionManager : CSingleton<MissionManager>
 			mis.mDateTime = TimeConvert.GetNow();
 			mis.mFinished = TimeConvert.NowDay();
 			mis.mDesc = "test2";
+			mis.mCount = 12;
 			AddMission(mis);
 
 			mis = new Mission();
@@ -123,6 +125,7 @@ public class MissionManager : CSingleton<MissionManager>
 			mis.mType = MissionType.Daily;
 			mis.mDateTime = new DateTime(2000, 1, 1, 8, 0, 0);
 			mis.mDesc = "test3";
+			mis.mCount = 55;
 			AddMission(mis);
 
 			mis = new Mission();
@@ -130,6 +133,7 @@ public class MissionManager : CSingleton<MissionManager>
 			mis.mType = MissionType.Daily;
 			mis.mDateTime = new DateTime(2001, 1, 1, 8, 0, 0);
 			mis.mDesc = "test4";
+			mis.mCount = 34;
 			AddMission(mis);
 
 			mis = new Mission();
@@ -137,6 +141,7 @@ public class MissionManager : CSingleton<MissionManager>
 			mis.mType = MissionType.Daily;
 			mis.mDateTime = TimeConvert.GetNow();
 			mis.mDesc = "test5";
+			mis.mCount = 4;
 			AddMission(mis);
 
 			mis = new Mission();
@@ -144,6 +149,7 @@ public class MissionManager : CSingleton<MissionManager>
 			mis.mType = MissionType.Daily;
 			mis.mDateTime = TimeConvert.GetNow();
 			mis.mDesc = "test6";
+			mis.mCount = 3;
 			AddMission(mis);
 		}
 
