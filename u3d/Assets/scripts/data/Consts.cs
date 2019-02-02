@@ -18,4 +18,6 @@ public class Consts
     }
 
     //public const string DATA_SAVE_PATH = Util.GetPersistentDataPath();
+    public const int PIC_WIDTH = 300;
+    public const int PIC_HIGHT = 300;
 }
