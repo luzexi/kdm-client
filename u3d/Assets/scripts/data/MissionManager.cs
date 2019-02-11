@@ -151,6 +151,7 @@ public class MissionManager : CSingleton<MissionManager>
 			mis.mDesc = "test6";
 			mis.mCount = 3;
 			AddMission(mis);
+			Save();
 		}
 
 	}

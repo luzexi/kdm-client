@@ -30,7 +30,12 @@ public class Mission
 			if(mTexture == null)
 			{
 				// todo load texture
-				return null;
+				mTexture = AssetHelper.LoadTableMissionPic(mTextureName);
+				if(mTexture == null)
+				{
+					mTexture = AssetHelper.LoadMissionPic(mTextureName);
+				}
+				return mTexture;
 			}
 			return mTexture;
 		}

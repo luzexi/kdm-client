@@ -13,8 +13,8 @@ public class AssetHelper
 	public static Texture LoadMissionPic(string pic_name)
 	{
 		Texture2D tex = null;
-		string path = GetPersistentDataPath() + MISSION_PIC_PATH + pic_name;
-		byte[] _data = CFile.ReadFile(path);
+		string path = Misc.GetPersistentDataPath() + MISSION_PIC_PATH + pic_name;
+		byte[] _data = CFile.ReadBinaryFile(path);
 
 		if(_data == null)
 		{
@@ -28,7 +28,7 @@ public class AssetHelper
 
 	public static Texture LoadTableMissionPic(string pic_name)
 	{
-		Texture tex = Resoures.Load(TABLE_MISSION_PIC_PATH + pic_name) as Texture;
+		Texture tex = Resources.Load(TABLE_MISSION_PIC_PATH + pic_name) as Texture;
 		return tex;
 	}
 
