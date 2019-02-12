@@ -144,6 +144,7 @@ public class UIMissionEditor : ScreenBaseHandler
     {
         if(mIsEdit)
         {
+            MissionManager.instance.Save();
             CloseScreen();
 
             UIDailyMission ui_daily_mission = MenuManager.instance.FindMenu<UIDailyMission>();
@@ -161,6 +162,7 @@ public class UIMissionEditor : ScreenBaseHandler
             mis.mDesc = mMission.mDesc;
             mis.mDateTime = TimeConvert.GetNow();
             MissionManager.instance.AddMission(mis);
+            MissionManager.instance.Save();
             CloseScreen();
 
             UIDailyMission ui_daily_mission = MenuManager.instance.FindMenu<UIDailyMission>();

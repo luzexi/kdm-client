@@ -84,6 +84,9 @@ public class Misc
     private static string s_persistentDataPath = string.Empty;
     public static string GetPersistentDataPath()
     {
+#if UNITY_EDITOR
+        return UnityEngine.Application.dataPath;
+#endif
         if (string.IsNullOrEmpty(s_persistentDataPath))
         {
             if (string.IsNullOrEmpty(UnityEngine.Application.persistentDataPath))

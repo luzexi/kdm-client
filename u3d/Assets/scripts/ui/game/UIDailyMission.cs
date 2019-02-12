@@ -468,6 +468,7 @@ public class UIDailyMission : ScreenBaseHandler
     {
         Mission mis = ev.GetData<Mission>("d");
         MissionManager.instance.RemoveMission(mis);
+        MissionManager.instance.Save();
 
         List<Mission> lst_mis = MissionManager.instance.GetDailyMission();
         ShowMission(lst_mis);

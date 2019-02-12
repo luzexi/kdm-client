@@ -94,6 +94,7 @@ public class MissionManager : CSingleton<MissionManager>
 		if(File.Exists(path))
 		{
 			string json_str = File.ReadAllText(path);
+			//Debug.Log("json_str " + json_str);
 			List<object> lst = Json.Deserialize(json_str) as List<object>;
 			if(lst != null)
 			{
@@ -108,6 +109,7 @@ public class MissionManager : CSingleton<MissionManager>
 			mis.mDateTime = TimeConvert.GetNow();
 			mis.mFinished = TimeConvert.NowDay();
 			mis.mDesc = "test1";
+			mis.mTextureName = "pic1";
 			mis.mCount = 99;
 			AddMission(mis);
 
@@ -117,6 +119,7 @@ public class MissionManager : CSingleton<MissionManager>
 			mis.mDateTime = TimeConvert.GetNow();
 			mis.mFinished = TimeConvert.NowDay();
 			mis.mDesc = "test2";
+			mis.mTextureName = "pic1";
 			mis.mCount = 12;
 			AddMission(mis);
 
@@ -125,6 +128,7 @@ public class MissionManager : CSingleton<MissionManager>
 			mis.mType = MissionType.Daily;
 			mis.mDateTime = new DateTime(2000, 1, 1, 8, 0, 0);
 			mis.mDesc = "test3";
+			mis.mTextureName = "pic1";
 			mis.mCount = 55;
 			AddMission(mis);
 
@@ -133,6 +137,7 @@ public class MissionManager : CSingleton<MissionManager>
 			mis.mType = MissionType.Daily;
 			mis.mDateTime = new DateTime(2001, 1, 1, 8, 0, 0);
 			mis.mDesc = "test4";
+			mis.mTextureName = "pic1";
 			mis.mCount = 34;
 			AddMission(mis);
 
@@ -141,6 +146,7 @@ public class MissionManager : CSingleton<MissionManager>
 			mis.mType = MissionType.Daily;
 			mis.mDateTime = TimeConvert.GetNow();
 			mis.mDesc = "test5";
+			mis.mTextureName = "pic1";
 			mis.mCount = 4;
 			AddMission(mis);
 
@@ -149,6 +155,7 @@ public class MissionManager : CSingleton<MissionManager>
 			mis.mType = MissionType.Daily;
 			mis.mDateTime = TimeConvert.GetNow();
 			mis.mDesc = "test6";
+			mis.mTextureName = "pic1";
 			mis.mCount = 3;
 			AddMission(mis);
 			Save();
