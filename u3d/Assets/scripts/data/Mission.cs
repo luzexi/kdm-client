@@ -23,6 +23,11 @@ public class Mission
 	public int mCount;
 	public int mFinished;
 
+
+	/// temp var
+	public MissionLog mLog = null;
+	///
+
 	public Texture texture
 	{
 		get

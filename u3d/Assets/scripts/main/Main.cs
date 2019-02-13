@@ -134,6 +134,7 @@ public class Main : MonoBehaviour
 		Debug.LogError("start game");
 
 		MissionManager.instance.Load();
+		StatisticsManager.instance.Load();
 
 		SceneManager.LoadScene("game");
 

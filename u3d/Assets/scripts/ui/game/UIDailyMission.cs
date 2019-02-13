@@ -295,11 +295,11 @@ public class UIDailyMission : ScreenBaseHandler
             mOldItemParent.SetActive(false);
         }
 
+        y_pos += lst_old.Count * HEIGHT_ITEM;
         if(lst_now.Count > 0 )
         {
-            mNowItemParent.SetActive(true);
             y_pos += HEIGHT_INTERVAL;
-            y_pos += lst_old.Count * HEIGHT_ITEM;
+            mNowItemParent.SetActive(true);
             mNowItemParent.transform.localPosition = new Vector3(0,sum_hight - y_pos,0);
             //y_pos += HEIGHT_TEXT;
             for(int i = 0 ; i<lst_now.Count ; i++)
@@ -343,11 +343,12 @@ public class UIDailyMission : ScreenBaseHandler
             mNowItemParent.SetActive(false);
         }
 
+        y_pos += lst_now.Count * HEIGHT_ITEM;
+
         if(lst_finished.Count > 0)
         {
-            mFinishedItemParent.SetActive(true);
             y_pos += HEIGHT_INTERVAL;
-            y_pos += lst_now.Count * HEIGHT_ITEM;
+            mFinishedItemParent.SetActive(true);
             mFinishedItemParent.transform.localPosition = new Vector3(0,sum_hight - y_pos,0);
             //y_pos += HEIGHT_TEXT;
             for(int i = 0 ; i<lst_finished.Count ; i++)
@@ -455,10 +456,23 @@ public class UIDailyMission : ScreenBaseHandler
 
     void BtnMissionFinishOnClick(PointerEventData eventData , UI_Event ev)
     {
+        int type = ev.GetData<int>("t");
         Mission mis = ev.GetData<Mission>("d");
-        //mis.mDateTime = DateTime.Now;
-        mis.mFinished = TimeConvert.NowDay();
-        mis.mCount++;
+        
+        if(type == 1)
+        {
+            mis.mDateTime = DateTime.Now;
+            mis.mCount++;
+        }
+        else if(type == 2)
+        {
+            mis.mFinished = TimeConvert.NowDay();
+            mis.mCount++;
+        }
+
+        mis.mLog = StatisticsManager.instance.AddLog(mis.mId);
+        StatisticsManager.instance.Save();
+        MissionManager.instance.Save();
 
         List<Mission> lst_mis = MissionManager.instance.GetDailyMission();
         ShowMission(lst_mis);
@@ -496,7 +510,14 @@ public class UIDailyMission : ScreenBaseHandler
         {
             mis.mFinished = 0;
             mis.mCount--;
+
+            StatisticsManager.instance.RemoveLog(mis.mLog);
+            StatisticsManager.instance.Save();
+
+            mis.mLog = null;
         }
+
+        MissionManager.instance.Save();
 
         List<Mission> lst_mis = MissionManager.instance.GetDailyMission();
         ShowMission(lst_mis);
