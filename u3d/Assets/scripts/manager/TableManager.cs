@@ -7,6 +7,7 @@ public class TableManager : CSingleton<TableManager>
 {
     //private TableCommonProperty mTableCommonProperty = null;
     private TableMissionSelect mTableMissionSelect = null;
+    private TablePlayerLevel mTablePlayerLevel = null;
 
     public void InitCommonProperty()
     {
@@ -40,5 +41,28 @@ public class TableManager : CSingleton<TableManager>
 
         }
         return mTableMissionSelect.GetAll();
+    }
+
+    public TablePlayerLevel.Data GetPlayerLevelByLevel(int level)
+    {
+        if (mTablePlayerLevel == null)
+        {
+            mTablePlayerLevel = new TablePlayerLevel();
+            mTablePlayerLevel.ReadTable();
+            mTablePlayerLevel.ParseData();
+        }
+        return mTablePlayerLevel.GetDataByLevel(level);
+    }
+
+    public List<TablePlayerLevel.Data> GetPlayerLevelAll ()
+    {
+        if (mTablePlayerLevel == null)
+        {
+            mTablePlayerLevel = new TablePlayerLevel();
+            mTablePlayerLevel.ReadTable();
+            mTablePlayerLevel.ParseData();
+
+        }
+        return mTablePlayerLevel.GetAll();
     }
 }

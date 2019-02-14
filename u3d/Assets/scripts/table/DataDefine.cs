@@ -11,5 +11,9 @@ public class DataDefine {
 	public const int Mission_MissionSelect_pic = 2;
 	public const int Mission_MissionSelect_desc = 3;
 	public const int Mission_MissionSelect_mission_type = 4;
+	public const int PlayerLevel_PlayerLevel_level = 0;
+	public const int PlayerLevel_PlayerLevel_achievement = 1;
+	public const int PlayerLevel_PlayerLevel_exp = 2;
+	public const int PlayerLevel_PlayerLevel_desc = 3;
 
 }

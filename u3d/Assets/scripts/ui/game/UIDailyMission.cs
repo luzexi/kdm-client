@@ -461,11 +461,12 @@ public class UIDailyMission : ScreenBaseHandler
         
         if(type == 1)
         {
-            mis.mDateTime = DateTime.Now;
+            mis.mDateTime = TimeConvert.GetNow();
             mis.mCount++;
         }
         else if(type == 2)
         {
+            mis.mDateTime = TimeConvert.GetTommorrow();
             mis.mFinished = TimeConvert.NowDay();
             mis.mCount++;
         }
@@ -508,6 +509,7 @@ public class UIDailyMission : ScreenBaseHandler
         }
         else if(type == 3)
         {
+            mis.mDateTime = TimeConvert.GetNow();
             mis.mFinished = 0;
             mis.mCount--;
 

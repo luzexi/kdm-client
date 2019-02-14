@@ -26,6 +26,11 @@ public class TimeConvert
         return DateTime.Now;
     }
 
+    public static DateTime GetTommorrow()
+    {
+        return new DateTime(DateTime.Now.Ticks + DAY_SECOND*TICKS_TO_SECOND);
+    }
+
 	//convert from unix time to string date time
     public static string UNIXTimeToDateTimeString(long time)
     {
