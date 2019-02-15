@@ -135,6 +135,7 @@ public class Main : MonoBehaviour
 
 		MissionManager.instance.Load();
 		StatisticsManager.instance.Load();
+		PlayerInfo.instance.Load();
 
 		SceneManager.LoadScene("game");
 

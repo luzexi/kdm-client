@@ -1,10 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.IO;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MiniJSON;
 
 public class PlayerInfo : CSingleton<PlayerInfo>
 {
-	private string mName = string.Empty;
+	private string mName = "Test";
 	public string Name
 	{
 		get
@@ -13,7 +16,16 @@ public class PlayerInfo : CSingleton<PlayerInfo>
 		}
 	}
 
-	private int mLevel;
+	private string mSign = "empty";
+	public string Sign
+	{
+		get
+		{
+			return mSign;
+		}
+	}
+
+	private int mLevel = 1;
 	public int Level
 	{
 		get
@@ -37,6 +49,15 @@ public class PlayerInfo : CSingleton<PlayerInfo>
 		get{return mGold;}
 	}
 
+	public TablePlayerLevel.Data LevelTable
+	{
+		get
+		{
+			TablePlayerLevel.Data level_data = TableManager.instance.GetPlayerLevelByLevel(mLevel);
+			return level_data;
+		}
+	}
+
 	public PlayerInfo()
 	{
 		//
@@ -45,6 +66,7 @@ public class PlayerInfo : CSingleton<PlayerInfo>
 	public void SetName(string _name)
 	{
 		mName = _name;
+		Save();
 	}
 
 	public void AddGold(int _gold)
@@ -52,6 +74,7 @@ public class PlayerInfo : CSingleton<PlayerInfo>
 		//MessageBox.instance.OpenMessage(MessageBox.TYPE.RollMessage,"","Add Gold " + _gold);
 
 		mGold += _gold;
+		Save();
 	}
 
 	public void DecGold(int _gold)
@@ -59,23 +82,26 @@ public class PlayerInfo : CSingleton<PlayerInfo>
 		//MessageBox.instance.OpenMessage(MessageBox.TYPE.RollMessage,"","Decrease Gold " + _gold);
 
 		mGold -= _gold;
+		Save();
 	}
 
     public void AddExp(int _exp)
     {
         mExp += _exp;
 
-        // TableLevel.Data tableLevelData = TableManager.instance.GetLevelInfoByID(mLevel + 1);
+        TablePlayerLevel.Data tableLevelData = TableManager.instance.GetPlayerLevelByLevel(mLevel + 1);
 
-        // if(tableLevelData == null)
-        //     return;
+        if(tableLevelData == null)
+            return;
 
-        // if (mExp >= tableLevelData.mExp)
-        //     mLevel++;
-        // else
-        //     return;
+        if (mExp >= tableLevelData.mExp)
+            mLevel++;
+        else
+            return;
 
         //MessageBox.instance.OpenMessage(MessageBox.TYPE.RollMessage, "", "Level UP!! Current Level:" + mLevel);
+
+        Save();
     }
 
 	public void SetGold(int _gold)
@@ -86,10 +112,11 @@ public class PlayerInfo : CSingleton<PlayerInfo>
 	void ToModel(Dictionary<string,object> dic)
 	{
 		if(dic == null) return;
-		mName = dic.Containskey("name")?dic["name"].ToString():"empty";
-		mLevel = dic.Containskey("level")?Convert.ToInt32(dic["level"]):1;
-		mExp = dic.Containskey("exp")?Convert.ToInt32(dic["exp"]):0;
-		mGold = dic.Containskey("gold")?Convert.ToInt32(dic["gold"]):0;
+		mName = dic.ContainsKey("name")?dic["name"].ToString():"Test";
+		mSign = dic.ContainsKey("sign")?dic["sign"].ToString():"empty";
+		mLevel = dic.ContainsKey("level")?int.Parse(dic["level"].ToString()):1;
+		mExp = dic.ContainsKey("exp")?int.Parse(dic["exp"].ToString()):0;
+		mGold = dic.ContainsKey("gold")?int.Parse(dic["gold"].ToString()):0;
 	}
 
 	Dictionary<string, object> ToDic()
@@ -97,6 +124,7 @@ public class PlayerInfo : CSingleton<PlayerInfo>
 		Dictionary<string, object> dic = new Dictionary<string, object>();
 		dic.Add("name", mName);
 		dic.Add("level", mLevel);
+		dic.Add("sign", mSign);
 		dic.Add("exp", mExp);
 		dic.Add("gold", mGold);
 

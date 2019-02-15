@@ -31,6 +31,11 @@ public class UIPersonal : ScreenBaseHandler
     public override void OpenScreen()
     {
         base.OpenScreen();
+
+        mName.text = PlayerInfo.instance.Name;
+        mLevel.text = "" + PlayerInfo.instance.Level;
+        mSign.text = PlayerInfo.instance.Sign;
+        mAchievement.text = PlayerInfo.instance.LevelTable.mAchievement;
     }
 
     void BtnBackOnClick(PointerEventData eventData , UI_Event ev)

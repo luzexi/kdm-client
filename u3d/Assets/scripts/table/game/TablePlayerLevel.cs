@@ -14,7 +14,7 @@ public class TablePlayerLevel : TableData
     {
         public int mLevel;
         public string mAchievement;
-        public string mExp;
+        public int mExp;
     }
     
     public Dictionary<int, Data> mData;
@@ -33,9 +33,9 @@ public class TablePlayerLevel : TableData
         for (int i=0; i<mTableData._nRows; i++)
         {
             Data data = new Data();
-            data.mLevel = mTableData.GetInt(i, DataDefine.Mission_MissionSelect_id);
-            data.mAchievement = mTableData.GetStr(i, DataDefine.Mission_MissionSelect_name);
-            data.mExp = mTableData.GetInt(i, DataDefine.Mission_MissionSelect_desc);
+            data.mLevel = mTableData.GetInt(i, DataDefine.PlayerLevel_PlayerLevel_level);
+            data.mAchievement = mTableData.GetStr(i, DataDefine.PlayerLevel_PlayerLevel_achievement);
+            data.mExp = mTableData.GetInt(i, DataDefine.PlayerLevel_PlayerLevel_exp);
             
             mData.Add(data.mLevel, data);
             mList.Add(data);
