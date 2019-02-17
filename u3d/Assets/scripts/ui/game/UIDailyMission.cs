@@ -58,7 +58,19 @@ public class UIDailyMission : ScreenBaseHandler
         base.OpenScreen();
     }
 
-    public void MoveToTop()
+    void MoveScrollTo(float _pos)
+    {
+        if(mView.sizeDelta.y <= mContent.sizeDelta.y)
+        {
+            mContent.transform.localPosition = new Vector3(0, _pos, 0);
+        }
+        else
+        {
+            // nothing to do
+        }
+    }
+
+    void MoveToTop()
     {
         if(mView.sizeDelta.y <= mContent.sizeDelta.y)
         {
@@ -476,7 +488,9 @@ public class UIDailyMission : ScreenBaseHandler
         MissionManager.instance.Save();
 
         List<Mission> lst_mis = MissionManager.instance.GetDailyMission();
+        float _pos = mContent.transform.localPosition.y;
         ShowMission(lst_mis);
+        MoveScrollTo(_pos);
     }
 
     void BtnMissionDeleteOnClick(PointerEventData eventData , UI_Event ev)
@@ -486,7 +500,9 @@ public class UIDailyMission : ScreenBaseHandler
         MissionManager.instance.Save();
 
         List<Mission> lst_mis = MissionManager.instance.GetDailyMission();
+        float _pos = mContent.transform.localPosition.y;
         ShowMission(lst_mis);
+        MoveScrollTo(_pos);
     }
 
     void BtnMissionEditorOnClick(PointerEventData eventData , UI_Event ev)
@@ -522,6 +538,8 @@ public class UIDailyMission : ScreenBaseHandler
         MissionManager.instance.Save();
 
         List<Mission> lst_mis = MissionManager.instance.GetDailyMission();
+        float _pos = mContent.transform.localPosition.y;
         ShowMission(lst_mis);
+        MoveScrollTo(_pos);
     }
 }
