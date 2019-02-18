@@ -44,6 +44,10 @@ public class Mission
 			}
 			return mTexture;
 		}
+		set
+		{
+			mTexture = value;
+		}
 	}
 
 	public bool IsOld()

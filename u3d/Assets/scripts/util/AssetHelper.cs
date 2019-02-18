@@ -32,9 +32,9 @@ public class AssetHelper
 		return tex;
 	}
 
-	public static bool SaveMissionPic(Texture2D tex)
+	public static string SaveMissionPic(Texture2D tex)
 	{
-		//
-		return false;
+		string path = "";
+		return path;
 	}
 }

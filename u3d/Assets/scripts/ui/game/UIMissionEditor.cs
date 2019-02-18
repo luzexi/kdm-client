@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-
+using ImageAndVideoPicker;
 
 // ui mission editor
 public class UIMissionEditor : ScreenBaseHandler
@@ -120,6 +120,11 @@ public class UIMissionEditor : ScreenBaseHandler
     void BtnSelectOnClick(PointerEventData eventData , UI_Event ev)
     {
         Mission mis = ev.GetData<Mission>("d");
+
+        if(mis.texture != null && mis.mTextureName == "")
+        {
+            mis.mTextureName = AssetHelper.SaveMissionPic(mis.texture as Texture2D);
+        }
         Mission select_mission = new Mission();
         if(mIsEdit)
         {
@@ -176,6 +181,28 @@ public class UIMissionEditor : ScreenBaseHandler
     void BtnCameraOnClick(PointerEventData eventData , UI_Event ev)
     {
         // select photo or take a picture
+        PickerEventListener.onImageLoad += OnImageLoad;
+#if UNITY_ANDROID
+        AndroidPicker.CheckPermissions();
+#endif
+#if UNITY_ANDROID
+        AndroidPicker.BrowseImage(true, Consts.PIC_WIDTH, Consts.PIC_HIGHT);
+#endif
+#if UNITY_IPHONE
+        AndroidPicker.BrowseImage(true);
+#endif
+    }
+
+    static void OnImageLoad(string imgPath, Texture2D tex, ImageAndVideoPicker.ImageOrientation orientation )
+    {
+        PickerEventListener.onImageLoad -= OnImageLoad;
+        // imgPath : browsed image path
+        // tex : image texture
+        UIMissionEditor uiMissionedit = MenuManager.instance.FindMenu<UIMissionEditor>();
+        Mission mis = uiMissionedit.mMission;
+        mis.mTextureName = "";
+        mis.texture = tex;
+        uiMissionedit.mImagePic.texture = tex;
     }
 
     void ScrollOnBeginDrag(PointerEventData eventData , UI_Event ev)
