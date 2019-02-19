@@ -34,7 +34,9 @@ public class AssetHelper
 
 	public static string SaveMissionPic(Texture2D tex)
 	{
-		string path = "";
-		return path;
+		string pic_name = "MissionTex-" + DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss") + ".tex";
+		string path = Misc.GetPersistentDataPath() + MISSION_PIC_PATH + pic_name;
+		CFile.WriteBinaryFile(path, tex.GetRawTextureData());
+		return pic_name;
 	}
 }

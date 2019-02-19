@@ -38,6 +38,9 @@ public class UIMissionEditor : ScreenBaseHandler
 
         //UI_Event _ev = UI_Event.Get(mTextDesc);
         //_ev.onClick = BtnSelectDescOnClick;
+#if UNITY_ANDROID
+        AndroidPicker.CheckPermissions();
+#endif
     }
 
     public override void CloseScreen()
@@ -121,10 +124,6 @@ public class UIMissionEditor : ScreenBaseHandler
     {
         Mission mis = ev.GetData<Mission>("d");
 
-        if(mis.texture != null && mis.mTextureName == "")
-        {
-            mis.mTextureName = AssetHelper.SaveMissionPic(mis.texture as Texture2D);
-        }
         Mission select_mission = new Mission();
         if(mIsEdit)
         {
@@ -147,6 +146,10 @@ public class UIMissionEditor : ScreenBaseHandler
 
     void BtnOkOnClick(PointerEventData eventData , UI_Event ev)
     {
+        if(mMission.texture != null && mMission.mTextureName == "")
+        {
+            mMission.mTextureName = AssetHelper.SaveMissionPic(mMission.texture as Texture2D);
+        }
         if(mIsEdit)
         {
             MissionManager.instance.Save();
@@ -182,9 +185,6 @@ public class UIMissionEditor : ScreenBaseHandler
     {
         // select photo or take a picture
         PickerEventListener.onImageLoad += OnImageLoad;
-#if UNITY_ANDROID
-        AndroidPicker.CheckPermissions();
-#endif
 #if UNITY_ANDROID
         AndroidPicker.BrowseImage(true, Consts.PIC_WIDTH, Consts.PIC_HIGHT);
 #endif
