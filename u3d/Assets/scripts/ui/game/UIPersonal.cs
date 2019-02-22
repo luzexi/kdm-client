@@ -45,7 +45,8 @@ public class UIPersonal : ScreenBaseHandler
 
     void BtnStatisticsOnClick(PointerEventData eventData , UI_Event ev)
     {
-        //
+        UIStatistics ui_statistics = MenuManager.instance.CreateMenu<UIStatistics>();
+        ui_statistics.OpenScreen();
     }
 }
 
