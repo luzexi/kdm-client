@@ -483,7 +483,7 @@ public class UIDailyMission : ScreenBaseHandler
             mis.mCount++;
         }
 
-        mis.mLog = StatisticsManager.instance.AddLog(mis.mId);
+        mis.mLog = StatisticsManager.instance.AddLog(mis.mId, mis.mDesc);
         StatisticsManager.instance.Save();
         MissionManager.instance.Save();
 

@@ -11,25 +11,57 @@ public class StatisticsManager : CSingleton<StatisticsManager>
 {
 	public long MaxID = 1;
 	List<MissionLog> mListMissionLog = new List<MissionLog>();
+	List<MissionDayLog> mListMissionDayLog = new List<MissionDayLog>();
+	Dictionary<string, MissionNameLog> mDicMissionNameLog = new Dictionary<string, MissionNameLog>();
 
 	public StatisticsManager()
 	{
 		//
 	}
 
-	public MissionLog AddLog(int _missionId)
+	public MissionLog AddLog(int _missionId, string _name)
 	{
-		return AddLog(_missionId, DateTime.Now);
+		return AddLog(_missionId, _name, DateTime.Now);
 	}
 
-	public MissionLog AddLog(int _missionId, DateTime _time)
+	public MissionLog AddLog(int _missionId, string _name, DateTime _time)
 	{
 		MissionLog log = new MissionLog();
 		log.mId = MaxID++;
+		log.mMissionName = _name;
 		log.mDateTime = _time;
 		log.mMissionId = _missionId;
 
 		mListMissionLog.Add(log);
+
+		MissionDayLog daylog = null;
+		if(mListMissionDayLog.Count > 0)
+		{
+			int _day_time = TimeConvert.GetDays(mListMissionDayLog[mListMissionDayLog.Count - 1].mDateTime);
+			if( _day_time == TimeConvert.NowDay())
+			{
+				daylog = mListMissionDayLog[mListMissionDayLog.Count - 1];
+			}
+		}
+		if(daylog == null)
+		{
+			daylog = new MissionDayLog();
+			daylog.mCount = 0;
+			daylog.mDateTime = TimeConvert.GetNow();
+			mListMissionDayLog.Add(daylog);
+		}
+		daylog.mCount++;
+
+		MissionNameLog namelog = null;
+		if(!mDicMissionNameLog.TryGetValue(_name, out namelog))
+		{
+			namelog = new MissionNameLog();
+			namelog.mName = _name;
+			namelog.mCount = 0;
+			namelog.mDateTime = TimeConvert.GetNow();
+			mDicMissionNameLog.Add(_name, namelog);
+		}
+		namelog.mCount++;
 
 		return log;
 	}
@@ -45,36 +77,97 @@ public class StatisticsManager : CSingleton<StatisticsManager>
 		}
 	}
 
-	void ToModel(List<object> lst_obj)
+	void ToModel(Dictionary<string, object> dic_obj)
 	{
 		mListMissionLog.Clear();
-		for(int i = 0 ; i<lst_obj.Count ; i++)
+		mListMissionDayLog.Clear();
+		mDicMissionNameLog.Clear();
+
+		if(dic_obj.ContainsKey("log"))
 		{
-			Dictionary<string,object> dic = lst_obj[i] as Dictionary<string,object>;
-			MissionLog mislog = new MissionLog();
-			mislog.ToModel(dic);
-			if(mislog.mId > MaxID)
+			List<object> lst_obj = dic_obj["log"] as List<object>;
+			if(lst_obj != null)
 			{
-				MaxID = mislog.mId + 1;
+				for(int i = 0 ; i<lst_obj.Count ; i++)
+				{
+					Dictionary<string,object> dic = lst_obj[i] as Dictionary<string,object>;
+					MissionLog mislog = new MissionLog();
+					mislog.ToModel(dic);
+					if(mislog.mId > MaxID)
+					{
+						MaxID = mislog.mId + 1;
+					}
+					mListMissionLog.Add(mislog);
+				}
 			}
-			mListMissionLog.Add(mislog);
+		}
+
+		if(dic_obj.ContainsKey("daylog"))
+		{
+			List<object> lst_obj = dic_obj["daylog"] as List<object>;
+			if(lst_obj != null)
+			{
+				for(int i = 0 ; i<lst_obj.Count ; i++)
+				{
+					Dictionary<string,object> dic = lst_obj[i] as Dictionary<string,object>;
+					MissionDayLog mislog = new MissionDayLog();
+					mislog.ToModel(dic);
+					mListMissionDayLog.Add(mislog);
+				}
+			}
+		}
+
+		if(dic_obj.ContainsKey("namelog"))
+		{
+			List<object> lst_obj = dic_obj["namelog"] as List<object>;
+			if(lst_obj != null)
+			{
+				for(int i = 0 ; i<lst_obj.Count ; i++)
+				{
+					Dictionary<string,object> dic = lst_obj[i] as Dictionary<string,object>;
+					MissionNameLog mislog = new MissionNameLog();
+					mislog.ToModel(dic);
+					mDicMissionNameLog.Add(mislog.mName, mislog);
+				}
+			}
 		}
 	}
 
-	List<object> ToDic()
+	Dictionary<string, object> ToDic()
 	{
+		Dictionary<string, object> dic = new Dictionary<string, object>();
+
 		List<object> lst = new List<object>();
 		for(int i = 0 ; i<mListMissionLog.Count ; i++)
 		{
-			Dictionary<string,object> dic = mListMissionLog[i].ToDic();
-			lst.Add(dic);
+			Dictionary<string,object> tmp_dic = mListMissionLog[i].ToDic();
+			lst.Add(tmp_dic);
 		}
-		return lst;
+		dic.Add("log", lst);
+
+		lst = new List<object>();
+		for(int i = 0 ; i<mListMissionDayLog.Count ; i++)
+		{
+			Dictionary<string,object> tmp_dic = mListMissionDayLog[i].ToDic();
+			lst.Add(tmp_dic);
+		}
+		dic.Add("daylog", lst);
+
+		lst = new List<object>();
+		List<MissionNameLog> lst_name_log = new List<MissionNameLog>(mDicMissionNameLog.Values);
+		for(int i = 0 ; i<lst_name_log.Count ; i++)
+		{
+			Dictionary<string,object> tmp_dic = lst_name_log[i].ToDic();
+			lst.Add(tmp_dic);
+		}
+		dic.Add("namelog", lst);
+
+		return dic;
 	}
 
 	public void Save()
 	{
-		List<object> lst = ToDic();
+		Dictionary<string, object> lst = ToDic();
 		string json_str = Json.Serialize(lst);
 		string path = Misc.GetPersistentDataPath() + "/statistics_data.json";
 		File.WriteAllText(path, json_str);
@@ -87,7 +180,7 @@ public class StatisticsManager : CSingleton<StatisticsManager>
 		{
 			string json_str = File.ReadAllText(path);
 			//Debug.Log("json_str " + json_str);
-			List<object> lst = Json.Deserialize(json_str) as List<object>;
+			Dictionary<string, object> lst = Json.Deserialize(json_str) as Dictionary<string, object>;
 			if(lst != null)
 			{
 				ToModel(lst);
