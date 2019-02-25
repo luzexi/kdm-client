@@ -19,6 +19,16 @@ public class StatisticsManager : CSingleton<StatisticsManager>
 		//
 	}
 
+	public List<MissionLog> GetAllMissionLog()
+	{
+		return new List<MissionLog>(mListMissionLog);
+	}
+
+	public List<MissionDayLog> GetAllMissionDayLog()
+	{
+		return new List<MissionDayLog>(mListMissionDayLog);
+	}
+
 	public MissionLog AddLog(int _missionId, string _name)
 	{
 		return AddLog(_missionId, _name, DateTime.Now);
@@ -51,6 +61,7 @@ public class StatisticsManager : CSingleton<StatisticsManager>
 			mListMissionDayLog.Add(daylog);
 		}
 		daylog.mCount++;
+		daylog.mTotalExp = PlayerInfo.Exp;
 
 		MissionNameLog namelog = null;
 		if(!mDicMissionNameLog.TryGetValue(_name, out namelog))

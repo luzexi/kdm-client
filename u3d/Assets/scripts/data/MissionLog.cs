@@ -33,6 +33,7 @@ public class MissionLog
 public class MissionDayLog
 {
 	public int mCount;
+	public int mTotalExp;
 	public DateTime mDateTime;
 
 	public Dictionary<string,object> ToDic()
